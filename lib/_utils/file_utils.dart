@@ -7,7 +7,7 @@ class FileUtils {
     } catch (e) {
       print("$e");
     }
-    return null;
+    return '';
   }
 
   Future<void> writeAsString(String path, String contents) async {

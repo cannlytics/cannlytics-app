@@ -8,7 +8,7 @@ import 'package:cannlytics_app/models/app_model.dart';
 import 'package:provider/provider.dart';
 
 class BtnColors {
-  BtnColors({@required this.bg, @required this.fg, this.outline});
+  BtnColors({required this.bg, required this.fg, this.outline});
   final Color bg;
   final Color fg;
   final Color outline;
@@ -22,10 +22,10 @@ enum BtnTheme { Primary, Secondary, Raw }
 class RawBtn extends StatefulWidget {
   const RawBtn(
       {Key key,
-      @required this.child,
+      required this.child,
       this.normalColors,
       this.hoverColors,
-      @required this.onPressed,
+      required this.onPressed,
       this.padding,
       this.focusMargin,
       this.enableShadow,

@@ -9,11 +9,11 @@ class AnimatedMenuPanel extends StatefulWidget {
     this.closedPos,
     this.closedSize, {
     Key key,
-    @required this.openHeight,
-    @required this.isOpen,
+    required this.openHeight,
+    required this.isOpen,
     this.isVisible = true,
     this.onPressed,
-    @required this.childBuilder,
+    required this.childBuilder,
   }) : super(key: key);
   final Offset closedPos;
   final Size closedSize;

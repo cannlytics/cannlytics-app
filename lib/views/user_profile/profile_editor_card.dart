@@ -66,7 +66,7 @@ class _ProfileEditorCardContent extends StatefulWidget {
 }
 
 class _ProfileEditorCardContentState extends State<_ProfileEditorCardContent> {
-  AppUser _user;
+  AppUser _user = AppUser(email: '', fireId: '');
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +136,7 @@ class _ProfileEditorCardContentState extends State<_ProfileEditorCardContent> {
   }
 
   void _handleProfileImgPressed() async {
-    List<String> paths = await PickImagesCommand().run();
+    // List<String> paths = await PickImagesCommand().run();
     // CloudStorageService cloudStorage = context.read<CloudStorageService>();
     // List<CloudinaryResponse> uploads =
     //     await cloudStorage.multiUpload(urls: paths);
@@ -144,9 +144,9 @@ class _ProfileEditorCardContentState extends State<_ProfileEditorCardContent> {
     // FIXME: Use Firebase Storage instead.
     // Update firebase
     List<Map> uploads = [
-      {'secureUrl': 'https//robohash.org/wizard@cannlytics.com.png'},
+      {'secureUrl': 'https://cannlytics.page.link/cannbot'},
     ];
-    if (uploads?.isNotEmpty ?? false) {
+    if (uploads.isNotEmpty) {
       AppModel m = context.read();
       UpdateUserCommand()
           .run(m.currentUser.copyWith(imageUrl: uploads[0]['secureUrl']));
@@ -174,7 +174,7 @@ class _ProfileEditorCardContentState extends State<_ProfileEditorCardContent> {
     } else {
       ClosePopoverNotification().dispatch(context);
     }
-    SetCurrentUserCommand().run(null);
+    SetCurrentUserCommand().run(AppUser(email: '', fireId: ''));
   }
 }
 
@@ -184,10 +184,14 @@ class _TopShadow extends StatelessWidget {
     return Positioned.fill(
       child: ClipRect(
         child: FractionalTranslation(
-            translation: Offset(0, -1),
-            child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.red, boxShadow: Shadows.universal))),
+          translation: Offset(0, -1),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.red,
+              boxShadow: Shadows.universal,
+            ),
+          ),
+        ),
       ),
     );
   }

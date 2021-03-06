@@ -16,10 +16,10 @@ import 'package:cannlytics_app/views/scrapboard_editor_page/scrapboard/scrapboar
 class NetworkedScrapboard extends StatefulWidget {
   const NetworkedScrapboard(
       //this.bookId, String this.pageId,
-      {Key key,
-      this.startOffset,
+      {required Key key,
+      required this.startOffset,
       this.readOnly = false,
-      this.onSelectionChanged})
+      required this.onSelectionChanged})
       : super(key: key);
   final Offset startOffset;
   final bool readOnly;
@@ -33,7 +33,7 @@ class NetworkedScrapboard extends StatefulWidget {
 
 class _NetworkedScrapboardState extends State<NetworkedScrapboard> {
   List<ScrapData<PlacedScrapItem>> _selectedBoxes = [];
-  ScrapPageData _currentPage;
+  ScrapPageData _currentPage = ScrapPageData();
   bool _ignoreKeyboardEvents = false;
   bool _isTranslating = false;
   ValueNotifier<bool> isTranslatingNotifier = ValueNotifier(false);
@@ -70,22 +70,23 @@ class _NetworkedScrapboardState extends State<NetworkedScrapboard> {
           idBuilder: (item) => item.data.documentId,
           itemControlsBuilder: (item) {
             return ValueListenableBuilder(
-                valueListenable: isTranslatingNotifier,
-                child: Transform.translate(
-                  offset: Offset(item.dx - ScrapPopupEditor.kWidth / 2,
-                      item.dy + item.height / 2 - 20),
-                  child: ScrapPopupEditor(
-                    key: ValueKey(item.documentId),
-                    scrap: item,
-                    onRotChanged: (value) => _handleRotChanged(item, value),
-                    onStyleChanged: (style) =>
-                        _handleScrapStyleChanged(item, style),
-                  ),
+              valueListenable: isTranslatingNotifier,
+              child: Transform.translate(
+                offset: Offset(item.dx - ScrapPopupEditor.kWidth / 2,
+                    item.dy + item.height / 2 - 20),
+                child: ScrapPopupEditor(
+                  key: ValueKey(item.documentId),
+                  scrap: item,
+                  onRotChanged: (value) => _handleRotChanged(item, value),
+                  onStyleChanged: (style) =>
+                      _handleScrapStyleChanged(item, style),
                 ),
-                builder: (_, bool isTranslating, cachedChild) {
-                  if (isTranslating) return Container();
-                  return cachedChild;
-                });
+              ),
+              builder: (_, bool isTranslating, cachedChild) {
+                if (isTranslating) return Container();
+                return cachedChild;
+              },
+            );
           },
           itemBuilder: (item) {
             int _selectedIndex = _selectedBoxes
@@ -93,6 +94,7 @@ class _NetworkedScrapboardState extends State<NetworkedScrapboard> {
             bool isSelected = _selectedIndex != -1;
             return PlacedScrapRenderer(
               item,
+              key: GlobalKey<ScaffoldState>(),
               isSelected: isSelected,
               onEditStarted: _handleScrapEditStarted,
               onEditEnded: _handleScrapEditEnded,
@@ -105,9 +107,6 @@ class _NetworkedScrapboardState extends State<NetworkedScrapboard> {
         ),
       ],
     );
-    //   },
-    // );
-    // });
   }
 
   void _handleBoxTranslated(ScrapData<PlacedScrapItem> box) async {
@@ -140,7 +139,7 @@ class _NetworkedScrapboardState extends State<NetworkedScrapboard> {
   void _handleSelectionChanged(
       ScrapData<PlacedScrapItem> box, List<ScrapData<PlacedScrapItem>> boxes) {
     setState(() => _selectedBoxes = boxes);
-    widget.onSelectionChanged?.call(boxes);
+    widget.onSelectionChanged.call(boxes);
   }
 
   void _handleScrapEditStarted() => _ignoreKeyboardEvents = true;

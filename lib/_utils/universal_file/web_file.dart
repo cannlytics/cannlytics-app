@@ -3,10 +3,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'universal_file.dart';
 
 class WebFileWriter implements UniversalFile {
-  SharedPreferences prefs;
+  late SharedPreferences prefs;
 
   @override
-  String fileName;
+  String? fileName;
 
   String _lastWrite = "";
 

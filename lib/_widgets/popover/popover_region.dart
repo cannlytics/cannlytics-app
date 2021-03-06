@@ -28,8 +28,8 @@ enum PopOverRegionMode {
 class PopOverRegion extends StatefulWidget {
   PopOverRegion(
       {Key key,
-      @required this.child,
-      @required this.popChild,
+      required this.child,
+      required this.popChild,
       this.anchor,
       this.popAnchor,
       this.barrierDismissable,
@@ -85,13 +85,13 @@ class PopOverRegion extends StatefulWidget {
 
   static PopOverRegion hoverWithClick({
     Key key,
-    @required Widget child,
+    required Widget child,
     bool barrierDismissable = true,
     Color barrierColor,
-    @required Widget hoverPopChild,
+    required Widget hoverPopChild,
     Alignment hoverAnchor,
     Alignment hoverPopAnchor,
-    @required Widget clickPopChild,
+    required Widget clickPopChild,
     Alignment clickAnchor,
     Alignment clickPopAnchor,
   }) {

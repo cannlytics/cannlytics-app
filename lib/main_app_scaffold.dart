@@ -8,11 +8,13 @@ import 'package:cannlytics_app/views/app_title_bar/app_title_bar.dart';
 import 'package:cannlytics_app/commands/commands.dart' as Commands;
 import 'package:statsfl/statsfl.dart';
 
-/// Wraps the entire app, providing it with various helper classes and wrapper widgets.
+/// Wraps the entire app, providing various helper classes and wrapper widgets.
 class MainAppScaffold extends StatefulWidget {
-  const MainAppScaffold(
-      {Key key, @required this.child, @required this.showAppBar})
-      : super(key: key);
+  const MainAppScaffold({
+    required Key key,
+    required this.child,
+    required this.showAppBar,
+  }) : super(key: key);
   final Widget child;
   final bool showAppBar;
 
@@ -25,7 +27,7 @@ class _MainAppScaffoldState extends State<MainAppScaffold> {
   Widget build(BuildContext context) {
     TextDirection textDirection =
         context.select((AppModel app) => app.textDirection);
-    // Provide the appTheme directly to the tree, so views don't need to look it up on the model (less boilerplate for views)
+    // Provide the appTheme directly to the tree.
     AppTheme appTheme = context.select((AppModel app) => app.theme);
     return Provider.value(
       value: appTheme,
@@ -46,18 +48,21 @@ class _MainAppScaffoldState extends State<MainAppScaffold> {
                     // Pop-over (tooltip) support
                     child: Builder(
                   builder: (BuildContext builderContext) {
-                    /// User a builder to provide a context to the Command layer that can safely use Navigator, Overlay etc
+                    /// User a builder to provide a context to the Command layer
+                    /// that can safely use Navigator, Overlay etc.
                     Commands.setContext(builderContext);
                     return PopOverController(
-                      // Draw a border around the entire window, because we're classy :)
+                      // Draw a border around the entire window.
                       child: _WindowBorder(
+                        key: GlobalKey<ScaffoldState>(),
                         color: appTheme.greyStrong,
-                        // Supply a top-level scaffold and SafeArea for all views
+                        // Supply a top-level scaffold and SafeArea for all views.
                         child: Scaffold(
                           backgroundColor: appTheme.bg1,
                           body: SafeArea(
                             // AppBar + Content
-                            // This column has a reversed vertical direction, because we want the TitleBar to cast a shadow on the content below it.
+                            // This column has a reversed vertical direction,
+                            // so that the TitleBar casts a shadow.
                             child: Column(
                               verticalDirection: VerticalDirection.up,
                               children: [
@@ -85,7 +90,11 @@ class _MainAppScaffoldState extends State<MainAppScaffold> {
 }
 
 class _WindowBorder extends StatelessWidget {
-  const _WindowBorder({Key key, this.child, this.color}) : super(key: key);
+  const _WindowBorder({
+    required Key key,
+    required this.child,
+    required this.color,
+  }) : super(key: key);
   final Widget child;
   final Color color;
 

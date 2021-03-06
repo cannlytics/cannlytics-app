@@ -60,7 +60,8 @@ class PopOverControllerState extends State<PopOverController> {
           builder: (_) {
             return GestureDetector(
               onTap: n.dismissOnBarrierClick ? _closeOverlay : null,
-              onPanStart: n.dismissOnBarrierClick ? (_) => _closeOverlay() : null,
+              onPanStart:
+                  n.dismissOnBarrierClick ? (_) => _closeOverlay() : null,
               child: Container(color: n.barrierColor ?? Colors.transparent),
             );
           },
@@ -97,7 +98,9 @@ class PopOverControllerState extends State<PopOverController> {
                       child: Opacity(
                         opacity: size != Size.zero ? 1 : 0,
                         // Wrap content in a MeasureSize which sends us it's size via callback.
-                        child: MeasureSize(onChange: _handlePopOverSized, child: FocusScope(child: n.popChild)),
+                        child: MeasureSize(
+                            onChange: _handlePopOverSized,
+                            child: FocusScope(child: n.popChild)),
                       ),
                     ),
                   );
@@ -111,7 +114,8 @@ class PopOverControllerState extends State<PopOverController> {
     return false;
   }
 
-  void _handlePopOverSized(Size size) => scheduleMicrotask(() => _sizeNotifier.value = size);
+  void _handlePopOverSized(Size size) =>
+      scheduleMicrotask(() => _sizeNotifier.value = size);
 }
 
 /// Simple wrapper that measures itself and send the size in a callback or notification.
@@ -131,8 +135,10 @@ class MeasureSizeRenderObject extends RenderProxyBox {
 }
 
 class MeasureSize extends SingleChildRenderObjectWidget {
-  const MeasureSize({Key key, @required this.onChange, @required Widget child}) : super(key: key, child: child);
+  const MeasureSize({Key key, required this.onChange, required Widget child})
+      : super(key: key, child: child);
   final void Function(Size size) onChange;
   @override
-  RenderObject createRenderObject(BuildContext context) => MeasureSizeRenderObject(onChange);
+  RenderObject createRenderObject(BuildContext context) =>
+      MeasureSizeRenderObject(onChange);
 }

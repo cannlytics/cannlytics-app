@@ -13,7 +13,7 @@ class ScrapPopupPanelFonts extends StatelessWidget {
       {Key key,
       this.isOpen,
       this.value = BoxFonts.AlfaSlabOne,
-      @required this.onFamilyChanged})
+      required this.onFamilyChanged})
       : super(key: key);
   @override
   Widget build(BuildContext context) {

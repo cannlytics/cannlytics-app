@@ -8,7 +8,7 @@ import 'package:cannlytics_app/core_packages.dart';
 class InlineTextEditor extends StatefulWidget {
   const InlineTextEditor(this.text,
       {Key key,
-      @required this.width,
+      required this.width,
       this.style,
       this.maxLines = 1,
       this.alignVertical = TextAlignVertical.center,

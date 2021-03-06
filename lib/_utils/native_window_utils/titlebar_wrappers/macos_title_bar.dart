@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cannlytics_app/_utils/native_window_utils/macos_window_utils.dart';
 
 class MacosTitleBar extends StatefulWidget {
-  const MacosTitleBar(this.child, {Key key}) : super(key: key);
+  const MacosTitleBar(this.child, {required Key key}) : super(key: key);
   final Widget child;
 
   @override
@@ -11,7 +11,7 @@ class MacosTitleBar extends StatefulWidget {
 }
 
 class _MacosTitleBarState extends State<MacosTitleBar> {
-  Future<double> _futureHeight;
+  late Future<double> _futureHeight;
 
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _MacosTitleBarState extends State<MacosTitleBar> {
         // Request the transparent titlebar height from the OS (async)
         future: _futureHeight,
         builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
-          double height = snapshot.connectionState == ConnectionState.done
+          double? height = snapshot.connectionState == ConnectionState.done
               ? snapshot.data
               : MacosWindowUtils.kDefaultTitlebarHeight;
           return GestureDetector(

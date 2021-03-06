@@ -27,7 +27,7 @@ part 'scrap_pile_picker_view.dart';
 class ScrapPilePicker extends StatefulWidget {
   const ScrapPilePicker({
     Key key,
-    @required this.bookId,
+    required this.bookId,
     this.contextMenuLabels,
     this.contextMenuActions,
     this.onSelectionChanged,

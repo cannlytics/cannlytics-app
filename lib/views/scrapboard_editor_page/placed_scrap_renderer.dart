@@ -16,10 +16,10 @@ import 'package:cannlytics_app/views/scrapboard_editor_page/placed_scrap_keyboar
 class PlacedScrapRenderer extends StatelessWidget {
   const PlacedScrapRenderer(
     this.item, {
-    Key key,
-    @required this.isSelected,
-    @required this.onEditStarted,
-    @required this.onEditEnded,
+    required Key key,
+    required this.isSelected,
+    required this.onEditStarted,
+    required this.onEditEnded,
   }) : super(key: key);
   final PlacedScrapItem item;
   final bool isSelected;
@@ -28,13 +28,16 @@ class PlacedScrapRenderer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget scrapBox;
+    Widget? scrapBox;
     // Figure out what type of renderer to use for this srap
-    if (item.isPhoto) scrapBox = _PhotoBox(item);
-    if (item.isEmoji) scrapBox = _EmojiBox(item);
+    if (item.isPhoto)
+      scrapBox = _PhotoBox(item, key: GlobalKey<ScaffoldState>());
+    if (item.isEmoji)
+      scrapBox = _EmojiBox(item, key: GlobalKey<ScaffoldState>());
     if (item.isText)
       scrapBox = _TextBox(
         item,
+        key: GlobalKey<ScaffoldState>(),
         isSelected: isSelected,
         onEditStarted: onEditStarted,
         onEditEnded: onEditEnded,
@@ -48,7 +51,7 @@ class PlacedScrapRenderer extends StatelessWidget {
 
     return ScrapKeyboardShortcutsListener(
       item: item,
-      enableKeyListener: isSelected ?? false,
+      enableKeyListener: isSelected,
       child: ContextMenuRegion(
         contextMenu: ScrapContextMenu(scrap: item),
         child: Container(
@@ -61,7 +64,7 @@ class PlacedScrapRenderer extends StatelessWidget {
 }
 
 class _EmojiBox extends StatelessWidget {
-  const _EmojiBox(this.item, {Key key}) : super(key: key);
+  const _EmojiBox(this.item, {required Key key}) : super(key: key);
   final PlacedScrapItem item;
 
   @override
@@ -75,7 +78,7 @@ class _EmojiBox extends StatelessWidget {
 }
 
 class _PhotoBox extends StatelessWidget {
-  const _PhotoBox(this.item, {Key key}) : super(key: key);
+  const _PhotoBox(this.item, {required Key key}) : super(key: key);
   final PlacedScrapItem item;
 
   @override
@@ -85,7 +88,10 @@ class _PhotoBox extends StatelessWidget {
 
 class _TextBox extends StatefulWidget {
   const _TextBox(this.item,
-      {Key key, this.isSelected = false, this.onEditStarted, this.onEditEnded})
+      {required Key key,
+      this.isSelected = false,
+      required this.onEditStarted,
+      required this.onEditEnded})
       : super(key: key);
   final PlacedScrapItem item;
   final bool isSelected;
@@ -98,7 +104,7 @@ class _TextBox extends StatefulWidget {
 
 class _TextBoxState extends State<_TextBox> {
   Debouncer textChangedDebounce = Debouncer(Duration(milliseconds: 150));
-  String _txtValue;
+  String _txtValue = '';
 
   @override
   void initState() {
@@ -128,9 +134,8 @@ class _TextBoxState extends State<_TextBox> {
           minFontSize: 10,
           maxFontSize: 999,
           textBuilder: (size, style, numLines) {
-            style = style.copyWith(
-                color: widget.item.boxStyle?.fgColor ?? Colors.black);
-            TextAlign textAlign = widget.item.boxStyle?.align ?? TextAlign.left;
+            style = style.copyWith(color: widget.item.boxStyle.fgColor);
+            TextAlign textAlign = widget.item.boxStyle.align;
             return widget.isSelected
                 ? InlineTextEditor(
                     widget.item.data,

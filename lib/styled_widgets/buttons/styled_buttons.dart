@@ -11,7 +11,7 @@ export 'raw_styled_btn.dart';
 class PrimaryBtn extends StatelessWidget {
   const PrimaryBtn(
       {Key key,
-      @required this.onPressed,
+      required this.onPressed,
       this.label,
       this.icon,
       this.child,
@@ -49,7 +49,7 @@ class PrimaryBtn extends StatelessWidget {
 class SecondaryBtn extends StatelessWidget {
   const SecondaryBtn({
     Key key,
-    @required this.onPressed,
+    required this.onPressed,
     this.label,
     this.icon,
     this.child,
@@ -130,7 +130,7 @@ class SimpleBtn extends StatelessWidget {
 /// Text Btn - wraps a [SimpleBtn]
 class TextBtn extends StatelessWidget {
   const TextBtn(this.label,
-      {Key key, @required this.onPressed, this.isCompact = false, this.style})
+      {Key key, required this.onPressed, this.isCompact = false, this.style})
       : super(key: key);
   final String label;
   final VoidCallback onPressed;

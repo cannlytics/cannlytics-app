@@ -6,10 +6,10 @@ import 'package:path/path.dart' as p;
 import 'universal_file.dart';
 
 class IoFileWriter implements UniversalFile {
-  Directory dataPath;
+  late Directory dataPath;
 
   @override
-  String fileName;
+  String? fileName;
 
   IoFileWriter(this.fileName);
 

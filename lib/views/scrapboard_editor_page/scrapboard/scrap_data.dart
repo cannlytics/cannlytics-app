@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cannlytics_app/_utils/easy_notifier.dart';
 
 class ScrapData<T> extends EasyNotifier {
-  ScrapData(this.data, {this.aspect});
+  ScrapData(this.data, {required this.aspect});
 
   Offset _offset = Offset.zero;
   Offset get offset => _offset;

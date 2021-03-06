@@ -8,10 +8,7 @@ import 'core/context_menu_card.dart';
 
 class TextContextMenu extends BaseContextMenu {
   const TextContextMenu(
-      {Key key,
-      @required this.data,
-      this.controller,
-      this.obscuredText = false})
+      {Key key, required this.data, this.controller, this.obscuredText = false})
       : super(key: key);
   final String data;
   final TextEditingController controller;

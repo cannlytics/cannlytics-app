@@ -11,10 +11,10 @@ import 'package:cannlytics_app/data/book_data.dart';
 // Listens to common keyboard shortcuts for all scraps.
 class ScrapKeyboardShortcutsListener extends StatefulWidget {
   const ScrapKeyboardShortcutsListener(
-      {Key key,
-      @required this.child,
-      this.enableKeyListener,
-      @required this.item})
+      {required Key key,
+      required this.child,
+      required this.enableKeyListener,
+      required this.item})
       : super(key: key);
   final Widget child;
   final bool enableKeyListener;

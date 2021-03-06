@@ -5,10 +5,10 @@ import 'package:cannlytics_app/models/app_model.dart';
 class ScrapPilePickerTitleBar extends StatelessWidget {
   const ScrapPilePickerTitleBar(
       {Key key,
-      @required this.onSelectAllPressed,
-      @required this.onClosePressed,
-      @required this.title,
-      @required this.isAllSelected,
+      required this.onSelectAllPressed,
+      required this.onClosePressed,
+      required this.title,
+      required this.isAllSelected,
       this.mobileMode = false})
       : super(key: key);
   final VoidCallback onSelectAllPressed;

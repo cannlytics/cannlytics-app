@@ -6,8 +6,8 @@ class Throttler {
   Throttler(this.interval);
   final Duration interval;
 
-  VoidCallback _action;
-  Timer _timer;
+  VoidCallback? _action;
+  Timer? _timer;
 
   void call(VoidCallback action, {bool immediateCall = false}) {
     _action = action;

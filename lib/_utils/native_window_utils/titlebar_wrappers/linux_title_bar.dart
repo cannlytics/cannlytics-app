@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 /// Native TitleBar for Linux, uses BitDojo platform
 class LinuxTitleBar extends StatelessWidget {
-  const LinuxTitleBar(this.child, {Key key}) : super(key: key);
+  const LinuxTitleBar(this.child, {required Key key}) : super(key: key);
   final Widget child;
 
   @override
@@ -35,11 +35,27 @@ class LinuxTitleBar extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                LinuxMinimizeButton(colors: btnColors),
+                LinuxMinimizeButton(
+                  key: GlobalKey<ScaffoldState>(),
+                  colors: btnColors,
+                  onPressed: () => appWindow.minimize(),
+                ),
                 appWindow.isMaximized
-                    ? LinuxUnmaximizeButton(colors: btnColors)
-                    : LinuxMaximizeButton(colors: btnColors),
-                LinuxCloseButton(colors: closeBtnColors),
+                    ? LinuxUnmaximizeButton(
+                        key: GlobalKey<ScaffoldState>(),
+                        colors: btnColors,
+                        onPressed: () => appWindow.maximizeOrRestore(),
+                      )
+                    : LinuxMaximizeButton(
+                        key: GlobalKey<ScaffoldState>(),
+                        colors: btnColors,
+                        onPressed: () => appWindow.maximizeOrRestore(),
+                      ),
+                LinuxCloseButton(
+                  key: GlobalKey<ScaffoldState>(),
+                  colors: closeBtnColors,
+                  onPressed: () => appWindow.close(),
+                ),
               ],
             ),
           ),

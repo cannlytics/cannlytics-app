@@ -10,7 +10,7 @@ import 'package:cannlytics_app/styled_widgets/context_menus/core/context_menu_bu
 import 'package:cannlytics_app/styled_widgets/context_menus/core/context_menu_card.dart';
 
 class ScrapContextMenu extends BaseContextMenu {
-  ScrapContextMenu({Key key, @required this.scrap}) : super(key: key);
+  ScrapContextMenu({Key key, required this.scrap}) : super(key: key);
   final PlacedScrapItem scrap;
 
   @override

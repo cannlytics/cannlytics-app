@@ -10,7 +10,8 @@ class _AppTitleBarDesktop extends StatelessWidget {
 
     bool isMac = UniversalPlatform.isMacOS;
     bool isMobile = context.widthPx < Sizes.smallPhone;
-    bool showTouchToggle = true; //context.select((AppModel m) => m.hasUser) == true;
+    bool showTouchToggle =
+        true; //context.select((AppModel m) => m.hasUser) == true;
     return Stack(children: [
       // Centered TitleText
       Center(child: _TitleText()),
@@ -41,7 +42,8 @@ class _AppTitleBarDesktop extends StatelessWidget {
 }
 
 class _TouchModeToggleBtn extends StatelessWidget {
-  const _TouchModeToggleBtn({Key key, @required this.invertPopupAlign}) : super(key: key);
+  const _TouchModeToggleBtn({Key key, required this.invertPopupAlign})
+      : super(key: key);
   final bool invertPopupAlign;
 
   @override
@@ -77,10 +79,19 @@ class _TouchModeToggleBtn extends StatelessWidget {
                     ),
                     child: PopOverRegion.hover(
                       key: ValueKey(touchMode),
-                      popAnchor: invertPopupAlign ? Alignment.topRight : Alignment.topLeft,
-                      anchor: invertPopupAlign ? Alignment.bottomRight : Alignment.bottomLeft,
-                      popChild: StyledTooltip(touchMode ? "Switch to Precision Mode" : "Switch to Touch Mode",
-                          arrowAlignment: invertPopupAlign ? Alignment.topRight : Alignment.topLeft),
+                      popAnchor: invertPopupAlign
+                          ? Alignment.topRight
+                          : Alignment.topLeft,
+                      anchor: invertPopupAlign
+                          ? Alignment.bottomRight
+                          : Alignment.bottomLeft,
+                      popChild: StyledTooltip(
+                          touchMode
+                              ? "Switch to Precision Mode"
+                              : "Switch to Touch Mode",
+                          arrowAlignment: invertPopupAlign
+                              ? Alignment.topRight
+                              : Alignment.topLeft),
                       child: MaterialIcon(
                         touchMode ? Icons.mouse : Icons.fingerprint,
                         color: theme.accent1,

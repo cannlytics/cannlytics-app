@@ -6,7 +6,7 @@ import 'package:cannlytics_app/data/book_data.dart';
 import 'package:cannlytics_app/models/books_model.dart';
 
 class EditorPanelInfo extends StatefulWidget {
-  const EditorPanelInfo({Key key, @required this.width, @required this.height})
+  const EditorPanelInfo({Key key, required this.width, required this.height})
       : super(key: key);
   final double width;
   final double height;

@@ -6,13 +6,12 @@ part 'app_user.g.dart';
 
 @freezed
 abstract class AppUser with _$AppUser {
-  static String kDefaultImageUrl =
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=50&q=80";
+  static String kDefaultImageUrl = "https://cannlytics.page.link/cannbot";
   const AppUser._();
   factory AppUser({
     @nullable String documentId,
-    @required String email,
-    @required String fireId,
+    required String email,
+    required String fireId,
     String firstName,
     String lastName,
     String imageUrl,
@@ -22,7 +21,7 @@ abstract class AppUser with _$AppUser {
       _$AppUserFromJson(json);
 
   String getDisplayName() {
-    String result = firstName ?? null;
+    String? result = firstName;
     if (StringUtils.isNotEmpty(lastName)) result += " $lastName";
     return result;
   }

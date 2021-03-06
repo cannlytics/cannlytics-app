@@ -13,9 +13,9 @@ import 'package:cannlytics_app/views/scrap_pile_picker/scrap_pile_picker.dart';
 class ContentPickerScrapsPanel extends StatefulWidget {
   const ContentPickerScrapsPanel(
       {Key key,
-      @required this.bookId,
+      required this.bookId,
       this.isVisible = false,
-      @required this.pageId})
+      required this.pageId})
       : super(key: key);
   final String bookId;
   final String pageId;
@@ -125,7 +125,7 @@ class _PanelBottomBar extends StatelessWidget {
       {Key key,
       this.onAddPressed,
       this.onDeletePressed,
-      @required this.selectionCount})
+      required this.selectionCount})
       : super(key: key);
   final VoidCallback onAddPressed;
   final VoidCallback onDeletePressed;

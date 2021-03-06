@@ -14,7 +14,7 @@
 
 //   // The response would have any errors, but List<AppImage> would be created here.
 //   Future<List<CloudinaryResponse>> multiUpload(
-//       {@required List<String> urls}) async {
+//       {required List<String> urls}) async {
 //     List<Future<CloudinaryFile>> f = urls.map((url) async {
 //       return CloudinaryFile.fromFile(url,
 //           resourceType: CloudinaryResourceType.Image);
@@ -24,7 +24,7 @@
 //     return await _cloudinary.multiUpload(f);
 //   }
 
-//   Future<CloudinaryResponse> uploadImage({@required String url}) async {
+//   Future<CloudinaryResponse> uploadImage({required String url}) async {
 //     return await _cloudinary.uploadFile(
 //       CloudinaryFile.fromFile(
 //         url,

@@ -159,7 +159,7 @@ class BookRowItem extends StatelessWidget {
 }
 
 class ImageAndNameContent extends StatelessWidget {
-  const ImageAndNameContent(this.data, {Key key, @required this.width})
+  const ImageAndNameContent(this.data, {Key key, required this.width})
       : super(key: key);
   final double width;
   final ScrapBookData data;

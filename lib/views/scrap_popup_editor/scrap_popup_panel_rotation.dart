@@ -9,9 +9,9 @@ class ScrapPopupPanelRotation extends StatelessWidget {
   final void Function(double value) onDegreesChanged;
   const ScrapPopupPanelRotation(
       {Key key,
-      @required this.isOpen,
-      @required this.degrees,
-      @required this.onDegreesChanged})
+      required this.isOpen,
+      required this.degrees,
+      required this.onDegreesChanged})
       : super(key: key);
   @override
   Widget build(BuildContext context) {

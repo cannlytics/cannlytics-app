@@ -7,15 +7,17 @@ class Utils {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
-  static bool get isMouseConnected => RendererBinding.instance.mouseTracker.mouseIsConnected;
+  static bool? get isMouseConnected =>
+      RendererBinding.instance?.mouseTracker.mouseIsConnected;
 
   static void unFocus() {
-    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+    WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
   }
 
   static void benchmark(String name, void Function() test) {
     int ms = DateTime.now().millisecondsSinceEpoch;
     test();
-    print("Benchmark: $name == ${DateTime.now().millisecondsSinceEpoch - ms}ms");
+    print(
+        "Benchmark: $name == ${DateTime.now().millisecondsSinceEpoch - ms}ms");
   }
 }

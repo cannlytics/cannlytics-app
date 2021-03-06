@@ -45,7 +45,7 @@ class SimplePagesMenu extends StatelessWidget {
 }
 
 class _PageBtn extends StatelessWidget {
-  _PageBtn({@required this.label, this.isSelected = false, this.onPressed});
+  _PageBtn({required this.label, this.isSelected = false, this.onPressed});
 
   final String label;
   final bool isSelected;

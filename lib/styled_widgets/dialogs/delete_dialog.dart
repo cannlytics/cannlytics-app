@@ -4,7 +4,7 @@ import 'package:cannlytics_app/core_packages.dart';
 
 class DeleteDialog extends StatelessWidget {
   const DeleteDialog(
-      {Key key, @required this.title, @required this.desc1, this.desc2})
+      {Key key, required this.title, required this.desc1, this.desc2})
       : super(key: key);
   final String title;
   final String desc1;

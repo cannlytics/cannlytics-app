@@ -9,9 +9,9 @@ class ShowPopOverNotification extends Notification {
   ShowPopOverNotification(
     this.context,
     this.link, {
-    @required this.anchor,
-    @required this.popAnchor,
-    @required this.popChild,
+    required this.anchor,
+    required this.popAnchor,
+    required this.popChild,
     this.useBarrier = true,
     this.barrierColor = Colors.transparent,
     this.dismissOnBarrierClick = true,

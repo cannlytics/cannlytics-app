@@ -1,13 +1,14 @@
-import 'dart:math';
+// import 'dart:math';
 
+import 'package:cannlytics_app/data/book_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/gestures/events.dart';
-import 'package:cannlytics_app/_utils/context_utils.dart';
+// import 'package:cannlytics_app/_utils/context_utils.dart';
 import 'package:cannlytics_app/_utils/input_utils.dart';
 import 'package:cannlytics_app/_utils/keyboard_utils.dart';
-import 'package:cannlytics_app/_utils/safe_print.dart';
+// import 'package:cannlytics_app/_utils/safe_print.dart';
 import 'package:cannlytics_app/_widgets/mixins/raw_keyboard_listener_mixin.dart';
 import 'package:vector_math/vector_math_64.dart' as math64;
 
@@ -16,9 +17,9 @@ import 'scrap_data.dart';
 
 class Scrapboard<T> extends StatefulWidget {
   const Scrapboard(
-      {Key key,
-      @required this.boxes,
-      @required this.itemBuilder,
+      {Key key = const Key('test'),
+      required this.boxes,
+      required this.itemBuilder,
       this.onTranslated,
       this.onTranslateEnded,
       this.onBoxDeleted,
@@ -63,7 +64,7 @@ class ScrapboardState<T> extends State<Scrapboard<T>>
   double _scale = 1;
   List<String> _selectedBoxIds = [];
   bool _isSpaceBarDown = false;
-  Size _viewSize;
+  // Size _viewSize;
 
   // We create a copy of the assigned boxList, so we can work on it internally
   List<ScrapData<T>> get _tmpBoxes => widget.boxes;
@@ -99,16 +100,19 @@ class ScrapboardState<T> extends State<Scrapboard<T>>
             valueListenable: isCardHovered,
             builder: (BuildContext context, bool value, Widget cachedChild) {
               return GestureDetector(
-                onTap: _handleBgPressed,
+                onTap: () {
+                  // _handleBgPressed(ScrapData(T ));
+                },
                 child: InteractiveViewer(
-                    transformationController: _transformController,
-                    boundaryMargin: EdgeInsets.all(double.infinity),
-                    minScale: 0.5,
-                    maxScale: 3,
-                    constrained: false,
-                    scaleEnabled: !value,
-                    panEnabled: !value,
-                    child: cachedChild),
+                  transformationController: _transformController,
+                  boundaryMargin: EdgeInsets.all(double.infinity),
+                  minScale: 0.5,
+                  maxScale: 3,
+                  constrained: false,
+                  scaleEnabled: !value,
+                  panEnabled: !value,
+                  child: cachedChild,
+                ),
               );
             },
             // Cache the Stack of Scraps so we can control panEnabled/scaleEnabled without rebuilding every card
@@ -274,11 +278,11 @@ class ScrapboardState<T> extends State<Scrapboard<T>>
     isCardHovered.value = value;
   }
 
-  void _handleBgPressed() {
+  void _handleBgPressed(ScrapData<T> data) {
     InputUtils.unFocus();
     setState(() {
       _selectedBoxIds.clear();
-      widget.onSelectionChanged?.call(null, []);
+      widget.onSelectionChanged.call(data, []);
     });
   }
 }

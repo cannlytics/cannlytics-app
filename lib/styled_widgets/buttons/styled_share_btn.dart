@@ -8,7 +8,7 @@ import 'package:cannlytics_app/data/book_data.dart';
 class StyledSharedBtn extends StatelessWidget {
   const StyledSharedBtn({
     Key key,
-    @required this.book,
+    required this.book,
     this.iconColor,
   }) : super(key: key);
   final Color iconColor;

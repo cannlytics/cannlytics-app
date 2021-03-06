@@ -15,7 +15,7 @@ import 'content_picker_scraps_panel.dart';
 
 class ContentPickerMenuPanel extends StatefulWidget {
   const ContentPickerMenuPanel(
-      {Key key, @required this.pageId, @required this.bookId})
+      {Key key, required this.pageId, required this.bookId})
       : super(key: key);
   final String bookId;
   final String pageId;
@@ -123,8 +123,8 @@ class AlignAndPad extends StatelessWidget {
 class _ContentPickerTabMenu extends StatelessWidget {
   const _ContentPickerTabMenu(
       {Key key,
-      @required this.contentType,
-      @required this.onPressed,
+      required this.contentType,
+      required this.onPressed,
       this.isPageSelected = false})
       : super(key: key);
   final ContentType contentType;

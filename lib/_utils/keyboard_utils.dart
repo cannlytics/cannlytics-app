@@ -3,9 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class KeyboardUtils {
-  static bool get isShiftDown => isKeyDown([LogicalKeyboardKey.shiftLeft, LogicalKeyboardKey.shiftRight]);
-  static bool get isControlDown => isKeyDown([LogicalKeyboardKey.controlLeft, LogicalKeyboardKey.controlRight]);
-  static bool get isMetaDown => isKeyDown([LogicalKeyboardKey.metaLeft, LogicalKeyboardKey.metaRight]);
+  static bool get isShiftDown =>
+      isKeyDown([LogicalKeyboardKey.shiftLeft, LogicalKeyboardKey.shiftRight]);
+  static bool get isControlDown => isKeyDown(
+      [LogicalKeyboardKey.controlLeft, LogicalKeyboardKey.controlRight]);
+  static bool get isMetaDown =>
+      isKeyDown([LogicalKeyboardKey.metaLeft, LogicalKeyboardKey.metaRight]);
   static bool get isWindowsDown => isMetaDown;
   static bool get isCommandDown => isMetaDown;
 
@@ -34,9 +37,11 @@ class KeyboardUtils {
   //TODO: Feature this snippet
   // Determine what to do when an image is pressed. This varies depending on input mode and platform.
   // Keyboard users will support ctrl/cmd modifiers, while Touch devices are optimized for single taps
-  static List<String> handleMultiSelectListClick(String clicked, List<String> selected, List<String> all,
-      {@required bool touchMode, bool allowSpanSelect = true}) {
-    selected = List.from(selected); // Clone list so we don't modify the original accidentally
+  static List<String> handleMultiSelectListClick(
+      String clicked, List<String> selected, List<String> all,
+      {required bool touchMode, bool allowSpanSelect = true}) {
+    selected = List.from(
+        selected); // Clone list so we don't modify the original accidentally
     bool wasSelected = selected.contains(clicked);
     // Touch mode, or Keyboard w/ Multiselect behavior: Tap something to add it, tap again to remove it. Tap bg to de-select all.
 
@@ -48,8 +53,10 @@ class KeyboardUtils {
         String mostRecent = selected.last ?? all.first;
         int mostRecentIndex = all.indexWhere((i) => i == mostRecent);
         int clickedIndex = all.indexWhere((i) => i == clicked);
-        int startIndex = clickedIndex > mostRecentIndex ? mostRecentIndex : clickedIndex;
-        int endIndex = clickedIndex > mostRecentIndex ? clickedIndex : mostRecentIndex;
+        int startIndex =
+            clickedIndex > mostRecentIndex ? mostRecentIndex : clickedIndex;
+        int endIndex =
+            clickedIndex > mostRecentIndex ? clickedIndex : mostRecentIndex;
         for (var i = startIndex; i <= endIndex; i++) {
           selected.add(all[i]);
         }

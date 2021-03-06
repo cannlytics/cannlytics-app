@@ -16,8 +16,8 @@ class CloseContextMenuNotification extends Notification {}
 class ContextMenuRegion extends StatelessWidget {
   const ContextMenuRegion(
       {Key key,
-      @required this.child,
-      @required this.contextMenu,
+      required this.child,
+      required this.contextMenu,
       this.isEnabled = true})
       : super(key: key);
   final Widget child;
@@ -143,7 +143,7 @@ class _MeasureSizeRenderObject extends RenderProxyBox {
 }
 
 class _MeasureSize extends SingleChildRenderObjectWidget {
-  const _MeasureSize({Key key, @required this.onChange, @required Widget child})
+  const _MeasureSize({Key key, required this.onChange, required Widget child})
       : super(key: key, child: child);
   final void Function(Size size) onChange;
   @override

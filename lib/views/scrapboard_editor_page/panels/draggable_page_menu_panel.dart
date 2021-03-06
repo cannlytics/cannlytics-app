@@ -8,7 +8,7 @@ import 'package:cannlytics_app/models/books_model.dart';
 import 'package:cannlytics_app/views/scrapboard_editor_page/draggable_page_menu/draggable_page_menu.dart';
 
 class DraggablePageMenuPanel extends StatefulWidget {
-  const DraggablePageMenuPanel(this.pages, {Key key, @required this.height})
+  const DraggablePageMenuPanel(this.pages, {Key key, required this.height})
       : super(key: key);
   final List<ScrapPageData> pages;
   final double height;

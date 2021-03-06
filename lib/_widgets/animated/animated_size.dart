@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 
 class _AnimatedSize extends StatelessWidget {
   _AnimatedSize(
-      {@required this.child, @required this.duration, this.begin, @required this.end, this.curve = Curves.easeOut});
+      {required this.child,
+      required this.duration,
+      this.begin,
+      required this.end,
+      this.curve = Curves.easeOut});
   final Widget child;
   final Duration duration;
   final Size begin;
@@ -30,16 +34,21 @@ class AnimatedHeight extends StatelessWidget {
 
   const AnimatedHeight({
     this.child,
-    @required this.duration,
-    @required this.begin,
-    @required this.end,
-    @required this.curve,
+    required this.duration,
+    required this.begin,
+    required this.end,
+    required this.curve,
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _AnimatedSize(child: child, duration: duration, begin: Size(0, begin), end: Size(0, end), curve: curve);
+    return _AnimatedSize(
+        child: child,
+        duration: duration,
+        begin: Size(0, begin),
+        end: Size(0, end),
+        curve: curve);
   }
 }
 
@@ -52,15 +61,20 @@ class AnimatedWidth extends StatelessWidget {
 
   const AnimatedWidth({
     this.child,
-    @required this.duration,
-    @required this.begin,
-    @required this.end,
-    @required this.curve,
+    required this.duration,
+    required this.begin,
+    required this.end,
+    required this.curve,
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _AnimatedSize(child: child, duration: duration, begin: Size(begin, 0), end: Size(end, 0), curve: curve);
+    return _AnimatedSize(
+        child: child,
+        duration: duration,
+        begin: Size(begin, 0),
+        end: Size(end, 0),
+        curve: curve);
   }
 }

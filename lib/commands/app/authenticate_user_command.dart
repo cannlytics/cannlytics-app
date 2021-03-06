@@ -6,9 +6,9 @@ import 'package:cannlytics_app/data/app_user.dart';
 
 class AuthenticateUserCommand extends BaseAppCommand {
   Future<bool> run(
-      {@required String email,
-      @required String pass,
-      @required bool createNew}) async {
+      {required String email,
+      required String pass,
+      required bool createNew}) async {
     AppUser user;
     try {
       // Authenticate user

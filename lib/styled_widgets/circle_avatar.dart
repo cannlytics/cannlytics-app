@@ -4,7 +4,7 @@ import 'package:cannlytics_app/core_packages.dart';
 
 class StyledCircleImage extends StatelessWidget {
   const StyledCircleImage(
-      {Key key, @required this.url, this.borderSize, this.padding})
+      {Key key, required this.url, this.borderSize, this.padding})
       : super(key: key);
 
   final double borderSize;

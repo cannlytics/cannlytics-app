@@ -11,15 +11,15 @@ import 'package:cannlytics_app/core_packages.dart';
 class MovableScrapSelectionBox extends StatefulWidget {
   const MovableScrapSelectionBox(
       {Key key,
-      @required this.child,
-      @required this.onZoomed,
-      @required this.onCornerDrag,
-      @required this.onDragEnded,
-      @required this.onRotateDrag,
-      @required this.btnSize,
+      required this.child,
+      required this.onZoomed,
+      required this.onCornerDrag,
+      required this.onDragEnded,
+      required this.onRotateDrag,
+      required this.btnSize,
       this.isVisible = false,
       this.onDeletePressed,
-      @required this.showControls})
+      required this.showControls})
       : super(key: key);
   final Widget child;
   final void Function(double delta) onZoomed;
@@ -113,8 +113,8 @@ class _Handle extends StatelessWidget {
   const _Handle(this.widget,
       {Key key,
       this.icon,
-      @required this.onPanUpdate,
-      @required this.onPanEnd,
+      required this.onPanUpdate,
+      required this.onPanEnd,
       this.isCircular = false})
       : super(key: key);
   final MovableScrapSelectionBox widget;

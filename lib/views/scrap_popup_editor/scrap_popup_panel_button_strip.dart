@@ -9,7 +9,7 @@ import 'package:cannlytics_app/data/book_data.dart';
 import 'package:cannlytics_app/models/books_model.dart';
 
 class ScrapPopupPanelButtonStrip extends StatefulWidget {
-  const ScrapPopupPanelButtonStrip({Key key, @required this.scrap})
+  const ScrapPopupPanelButtonStrip({Key key, required this.scrap})
       : super(key: key);
   final PlacedScrapItem scrap;
 

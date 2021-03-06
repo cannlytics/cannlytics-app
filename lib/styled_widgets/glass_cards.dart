@@ -9,7 +9,7 @@ import 'package:cannlytics_app/_widgets/mixins/animated_state_mixins.dart';
 import 'package:cannlytics_app/core_packages.dart';
 
 class GlassCard extends StatelessWidget {
-  const GlassCard({Key key, @required this.child, this.alpha = .6, this.radius})
+  const GlassCard({Key key, required this.child, this.alpha = .6, this.radius})
       : super(key: key);
   final Widget child;
   final double alpha;
@@ -37,9 +37,9 @@ class GlassCard extends StatelessWidget {
 class CollapsingCard extends StatefulWidget {
   const CollapsingCard(
       {Key key,
-      @required this.child,
-      @required this.height,
-      @required this.title,
+      required this.child,
+      required this.height,
+      required this.title,
       this.icon,
       this.titleClosed})
       : super(key: key);
@@ -117,11 +117,11 @@ class _CollapsingCardState extends State<CollapsingCard>
 class _CollapsableCardHeader extends StatelessWidget {
   const _CollapsableCardHeader(
       {Key key,
-      @required this.onPressed,
-      @required this.height,
-      @required this.animation,
-      @required this.isOpen,
-      @required this.title,
+      required this.onPressed,
+      required this.height,
+      required this.animation,
+      required this.isOpen,
+      required this.title,
       this.icon})
       : super(key: key);
   final VoidCallback onPressed;

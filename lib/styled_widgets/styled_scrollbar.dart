@@ -5,8 +5,8 @@ import 'package:cannlytics_app/models/app_model.dart';
 class StyledScrollbar extends StatelessWidget {
   const StyledScrollbar({
     Key key,
-    @required this.child,
-    @required this.controller,
+    required this.child,
+    required this.controller,
     this.padding,
   }) : super(key: key);
   final Widget child;

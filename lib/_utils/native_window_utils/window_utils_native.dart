@@ -24,11 +24,11 @@ class IoUtilsNative implements IoUtils {
 
   Widget wrapNativeTitleBarIfRequired(Widget child) {
     if (Platform.isWindows) {
-      return WindowsTitleBar(child);
+      return WindowsTitleBar(child, key: GlobalKey<ScaffoldState>());
     } else if (Platform.isLinux) {
       return Container(); //_LinuxTitleBar(child);
     } else if (Platform.isMacOS) {
-      return MacosTitleBar(child);
+      return MacosTitleBar(child, key: GlobalKey<ScaffoldState>());
     }
     return child;
   }

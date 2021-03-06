@@ -19,8 +19,8 @@ class _$AppUserTearOff {
 // ignore: unused_element
   _AppUser call(
       {@nullable String documentId,
-      @required String email,
-      @required String fireId,
+      required String email,
+      required String fireId,
       String firstName,
       String lastName,
       String imageUrl}) {
@@ -151,8 +151,8 @@ class __$AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
 class _$_AppUser extends _AppUser {
   _$_AppUser(
       {@nullable this.documentId,
-      @required this.email,
-      @required this.fireId,
+      required this.email,
+      required this.fireId,
       this.firstName,
       this.lastName,
       this.imageUrl})
@@ -229,8 +229,8 @@ abstract class _AppUser extends AppUser {
   _AppUser._() : super._();
   factory _AppUser(
       {@nullable String documentId,
-      @required String email,
-      @required String fireId,
+      required String email,
+      required String fireId,
       String firstName,
       String lastName,
       String imageUrl}) = _$_AppUser;

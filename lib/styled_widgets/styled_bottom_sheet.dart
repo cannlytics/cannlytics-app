@@ -35,7 +35,7 @@ class StyledBottomSheet extends StatelessWidget {
 }
 
 Future<T> showStyledBottomSheet<T>(BuildContext context,
-    {@required Widget child}) async {
+    {required Widget child}) async {
   return showModalBottomSheet(
       isScrollControlled: true,
       context: context,

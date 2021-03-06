@@ -13,9 +13,9 @@ import 'package:cannlytics_app/styled_widgets/emoji.dart';
 class ContentPickerEmojiPanel extends StatefulWidget {
   const ContentPickerEmojiPanel(
       {Key key,
-      @required this.isVisible,
-      @required this.bookId,
-      @required this.pageId})
+      required this.isVisible,
+      required this.bookId,
+      required this.pageId})
       : super(key: key);
   final bool isVisible;
   final String pageId;

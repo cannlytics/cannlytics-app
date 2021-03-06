@@ -57,6 +57,7 @@ class AppRouterDelegate extends RouterDelegate<AppLink> with ChangeNotifier {
     // Widget devSpike = _getDevSpike();
     // Wrap
     return MainAppScaffold(
+      key: GlobalKey<ScaffoldState>(),
       showAppBar: showSplash == false,
       child: Navigator(
         onPopPage: _handleNavigatorPop,

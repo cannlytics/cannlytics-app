@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 class OpeningContainer extends StatefulWidget {
   OpeningContainer({
     Key key,
-    @required this.onEnd,
-    @required this.child,
-    @required this.topLeftOffset,
-    @required this.closedSize,
+    required this.onEnd,
+    required this.child,
+    required this.topLeftOffset,
+    required this.closedSize,
     this.duration = const Duration(milliseconds: 350),
     this.curve = Curves.easeOut,
     this.isOpen = true,
@@ -28,7 +28,8 @@ class OpeningContainer extends StatefulWidget {
   _OpeningContainerState createState() => _OpeningContainerState();
 }
 
-class _OpeningContainerState extends State<OpeningContainer> with SingleTickerProviderStateMixin {
+class _OpeningContainerState extends State<OpeningContainer>
+    with SingleTickerProviderStateMixin {
   Offset get offset => widget.topLeftOffset;
   Size get closedSize => widget.closedSize;
 
@@ -59,7 +60,8 @@ class _OpeningContainerState extends State<OpeningContainer> with SingleTickerPr
           }
           // Translate the box up and to the left, while expanding it's width and height.
           return Transform.translate(
-            offset: Offset(rect.left * (1 - animValue), rect.top * (1 - animValue)),
+            offset:
+                Offset(rect.left * (1 - animValue), rect.top * (1 - animValue)),
             child: SizedBox(
               width: lerpDouble(closedSize.width, viewSize.width, animValue),
               height: lerpDouble(closedSize.height, viewSize.height, animValue),

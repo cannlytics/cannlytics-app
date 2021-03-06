@@ -14,7 +14,7 @@ class DraggablePageTitleBtn extends StatefulWidget {
     Key key,
     this.onPressed,
     this.onDragCancelled,
-    @required this.height,
+    required this.height,
     this.isSelected = false,
     this.isDragFeedback = false,
   }) : super(key: key);
@@ -144,10 +144,10 @@ class _DraggablePageTitleBtnState extends State<DraggablePageTitleBtn> {
 class _FadingDragHandle extends StatelessWidget {
   const _FadingDragHandle({
     Key key,
-    @required this.height,
-    @required this.width,
-    @required this.opacity,
-    @required this.isSelected,
+    required this.height,
+    required this.width,
+    required this.opacity,
+    required this.isSelected,
   }) : super(key: key);
 
   final double height;

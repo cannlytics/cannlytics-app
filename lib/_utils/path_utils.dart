@@ -5,7 +5,7 @@ import 'package:xdg_directories/xdg_directories.dart' as xdgDirectories;
 
 class PathUtil {
   static Future<String> get dataPath async {
-    String result;
+    String result = '';
     if (Platform.isLinux) {
       result = "${xdgDirectories.dataHome.path}/cannlytics";
     } else {

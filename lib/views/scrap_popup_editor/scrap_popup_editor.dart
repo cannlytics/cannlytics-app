@@ -19,9 +19,9 @@ import 'scrap_popup_panel_fonts.dart';
 class ScrapPopupEditor extends StatefulWidget {
   const ScrapPopupEditor({
     Key key,
-    @required this.scrap,
-    @required this.onStyleChanged,
-    @required this.onRotChanged,
+    required this.scrap,
+    required this.onStyleChanged,
+    required this.onRotChanged,
   }) : super(key: key);
   final PlacedScrapItem scrap;
   final void Function(BoxStyle boxStyle) onStyleChanged;
@@ -236,7 +236,7 @@ class _ScrapPopupEditorState extends State<ScrapPopupEditor> {
 }
 
 class _MenuItem extends StatelessWidget {
-  const _MenuItem({Key key, this.isOpen = false, @required this.child})
+  const _MenuItem({Key key, this.isOpen = false, required this.child})
       : super(key: key);
   final bool isOpen;
   final Widget child;

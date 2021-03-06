@@ -3,10 +3,10 @@ import 'package:cannlytics_app/_widgets/alignments.dart';
 
 class AnimatedOffset extends StatelessWidget {
   AnimatedOffset({
-    @required this.child,
-    @required this.duration,
+    required this.child,
+    required this.duration,
     this.begin,
-    @required this.end,
+    required this.end,
     this.curve = Curves.easeOut,
   });
   final Widget child;

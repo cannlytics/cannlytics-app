@@ -68,7 +68,7 @@ abstract class FirebaseService {
     return data.map((e) => ScrapBookData.fromJson(e)).toList();
   }
 
-  Future<ScrapBookData> getBook({@required String bookId}) async {
+  Future<ScrapBookData> getBook({required String bookId}) async {
     Map<String, dynamic> data = await getDoc([FireIds.books, bookId]);
     return data == null ? null : ScrapBookData.fromJson(data);
   }
@@ -97,13 +97,13 @@ abstract class FirebaseService {
   // PAGES
   /////////////////////////////////////////////////////////
   Future<ScrapPageData> getPage(
-      {@required String bookId, @required String pageId}) async {
+      {required String bookId, required String pageId}) async {
     Map<String, dynamic> data =
         await getDoc([FireIds.books, bookId, FireIds.pages, pageId]);
     return ScrapPageData.fromJson(data);
   }
 
-  Future<List<ScrapPageData>> getAllPages({@required String bookId}) async {
+  Future<List<ScrapPageData>> getAllPages({required String bookId}) async {
     List<Map<String, dynamic>> data = await getCollection(
       [FireIds.books, bookId, FireIds.pages],
     );
@@ -135,7 +135,7 @@ abstract class FirebaseService {
   }
 
   Future<void> deletePage(
-      {@required String bookId, @required String pageId}) async {
+      {required String bookId, required String pageId}) async {
     await deleteDoc([
       FireIds.books,
       bookId,
@@ -147,7 +147,7 @@ abstract class FirebaseService {
   /////////////////////////////////////////////////////////
   // BOOK SCRAPS
   /////////////////////////////////////////////////////////
-  Future<List<ScrapItem>> getAllBookScraps({@required String bookId}) async {
+  Future<List<ScrapItem>> getAllBookScraps({required String bookId}) async {
     List<Map<String, dynamic>> data = await getCollection(
       [FireIds.books, bookId, FireIds.scraps],
     );
@@ -172,7 +172,7 @@ abstract class FirebaseService {
   }
 
   Future<void> deleteBookScrap(
-      {@required String bookId, @required String scrapId}) async {
+      {required String bookId, required String scrapId}) async {
     await deleteDoc([
       FireIds.books,
       bookId,
@@ -185,7 +185,7 @@ abstract class FirebaseService {
   // PLACED SCRAPS
   /////////////////////////////////////////////////////////
   Future<List<PlacedScrapItem>> getAllPlacedScraps(
-      {@required String bookId, @required String pageId}) async {
+      {required String bookId, required String pageId}) async {
     List<Map<String, dynamic>> data = await getCollection(
         [FireIds.books, bookId, FireIds.pages, pageId, FireIds.pageBoxes]);
     return data.map((e) => PlacedScrapItem.fromJson(e)).toList();

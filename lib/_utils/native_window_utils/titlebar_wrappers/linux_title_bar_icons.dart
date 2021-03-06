@@ -29,7 +29,7 @@ import 'package:flutter/material.dart';
 // """;
 
 class LinuxMinimizeIcon extends StatelessWidget {
-  const LinuxMinimizeIcon({this.color});
+  const LinuxMinimizeIcon({required this.color});
 
   final Color color;
 
@@ -40,7 +40,7 @@ class LinuxMinimizeIcon extends StatelessWidget {
 }
 
 class LinuxMaximizeIcon extends StatelessWidget {
-  const LinuxMaximizeIcon({this.color});
+  const LinuxMaximizeIcon({required this.color});
 
   final Color color;
 
@@ -51,7 +51,7 @@ class LinuxMaximizeIcon extends StatelessWidget {
 }
 
 class LinuxUnmaximizeIcon extends StatelessWidget {
-  const LinuxUnmaximizeIcon({this.color});
+  const LinuxUnmaximizeIcon({required this.color});
 
   final Color color;
 
@@ -62,7 +62,7 @@ class LinuxUnmaximizeIcon extends StatelessWidget {
 }
 
 class LinuxCloseIcon extends StatelessWidget {
-  const LinuxCloseIcon({this.color});
+  const LinuxCloseIcon({required this.color});
 
   final Color color;
 

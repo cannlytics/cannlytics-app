@@ -20,16 +20,19 @@ class NoPagesView extends StatelessWidget {
             separatorBuilder: () => VSpace.med,
             children: [
               _FeatureRow(
+                key: GlobalKey<ScaffoldState>(),
                 icon: "📱",
                 label:
                     "Use your phone to take photos and upload them to the app",
               ),
               _FeatureRow(
+                key: GlobalKey<ScaffoldState>(),
                 icon: "💻",
                 label:
                     "Design your scrapbooks on larger screen devices like desktop, laptop and tablet.",
               ),
               _FeatureRow(
+                key: GlobalKey<ScaffoldState>(),
                 icon: "🔗",
                 label: "Share them with family and friends with a web link!",
               )
@@ -60,7 +63,11 @@ class _FeatureRow extends StatelessWidget {
   final String label;
   final String icon;
 
-  const _FeatureRow({Key key, this.label, this.icon}) : super(key: key);
+  const _FeatureRow({
+    required Key key,
+    required this.label,
+    required this.icon,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(

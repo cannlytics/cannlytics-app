@@ -8,9 +8,9 @@ import 'package:cannlytics_app/views/scrapboard_editor_page/draggable_page_menu/
 class DraggablePagesMenu extends StatefulWidget {
   const DraggablePagesMenu(
       {Key key,
-      @required this.pages,
-      @required this.pageId,
-      @required this.onPressed})
+      required this.pages,
+      required this.pageId,
+      required this.onPressed})
       : super(key: key);
   final List<ScrapPageData> pages;
   final String pageId;
@@ -131,8 +131,7 @@ class DraggablePagesMenuState extends State<DraggablePagesMenu> {
 }
 
 class _SelectedPageOutline extends StatelessWidget {
-  const _SelectedPageOutline(
-      {Key key, @required this.top, @required this.height})
+  const _SelectedPageOutline({Key key, required this.top, required this.height})
       : super(key: key);
   final double top;
   final double height;

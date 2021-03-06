@@ -8,9 +8,9 @@ import 'package:shortid/shortid.dart';
 
 class CreatePlacedScrapCommand extends BaseAppCommand {
   Future<void> run(
-      {@required String pageId,
+      {required String pageId,
       Size size,
-      @required List<ScrapItem> scraps}) async {
+      required List<ScrapItem> scraps}) async {
     if (scraps?.isEmpty ?? false) return null;
     List<PlacedScrapItem> scrapsToPlace = scraps.map((scrap) {
       bool isText = scrap.contentType == ContentType.Text;

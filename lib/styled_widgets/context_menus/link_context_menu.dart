@@ -7,7 +7,7 @@ import 'core/context_menu_button.dart';
 import 'core/context_menu_card.dart';
 
 class LinkContextMenu extends BaseContextMenu {
-  const LinkContextMenu({Key key, @required this.url}) : super(key: key);
+  const LinkContextMenu({Key key, required this.url}) : super(key: key);
   final String url;
 
   String getUrl() {
@@ -24,14 +24,17 @@ class LinkContextMenu extends BaseContextMenu {
     }
   }
 
-  void _handleClipboardPressed() async => Clipboard.setData(ClipboardData(text: getUrl()));
+  void _handleClipboardPressed() async =>
+      Clipboard.setData(ClipboardData(text: getUrl()));
 
   @override
   Widget build(BuildContext context) {
     return ContextMenuCard(
       children: [
-        ContextMenuBtn("Open link in new window", onPressed: () => handlePressed(context, _handleNewWindowPressed)),
-        ContextMenuBtn("Copy link address", onPressed: () => handlePressed(context, _handleClipboardPressed))
+        ContextMenuBtn("Open link in new window",
+            onPressed: () => handlePressed(context, _handleNewWindowPressed)),
+        ContextMenuBtn("Copy link address",
+            onPressed: () => handlePressed(context, _handleClipboardPressed))
       ],
     );
   }
