@@ -1,0 +1,23 @@
+{
+    "name": "Cannlytics",
+    "short_name": "Cannlytics",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "description": "Free cannabis-analytics software made with love and ready for you to plug and play or pop the hood and tinker to your heart's content.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

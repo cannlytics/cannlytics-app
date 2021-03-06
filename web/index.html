@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Free cannabis-analytics software made with love and ready for you to plug and play or pop the hood and tinker to your heart's content.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Cannlytics">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.ico"/>
+
+  <title>Cannlytics</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <!-- Install service_worker.js to provide PWA functionality.
+       Also, disable right-click because it doesn't work with Flutter.-->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('flutter-first-frame', function () {
+        navigator.serviceWorker.register('flutter_service_worker.js');
+      });
+    }
+    document.addEventListener('contextmenu', event => event.preventDefault());
+  </script>
+
+  <!-- Firebase configuration.
+       Workaround for analytics, see Firebase issues on Web:
+       https://github.com/FirebaseExtended/flutterfire/issues/3409-->
+  <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-firestore.js"></script>
+  <script>
+    // TODO: Add config with webpack?
+    var firebaseConfig = {
+      apiKey: "AIzaSyCWEMwQitfiSSAg21KcRb0YpNOhdyD4bak",
+      authDomain: "cannlytics.firebaseapp.com",
+      databaseURL: "https://cannlytics.firebaseio.com",
+      projectId: "cannlytics",
+      storageBucket: "cannlytics.appspot.com",
+      messagingSenderId: "464045168555",
+      appId: "1:464045168555:web:3edc939272be1ca9f624ee",
+      measurementId: "G-C9T5N9ZCZ5"
+    };
+    if (!firebase.analytics || !navigator.cookieEnabled) {
+      firebase.analytics = function() {};
+    }
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  <script src="main.dart.js" type="application/javascript"></script>
+</body>
+</html>
