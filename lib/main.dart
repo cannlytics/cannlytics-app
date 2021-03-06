@@ -37,7 +37,7 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       Provider.value(value: firebase),
-      Provider(create: (_) => CloudStorageService()),
+      // Provider(create: (_) => CloudStorageService()),
       ChangeNotifierProvider.value(value: appModel),
       ChangeNotifierProvider.value(value: booksModel),
     ],
@@ -53,7 +53,7 @@ class _AppBootstrapper extends StatefulWidget {
 
 class _AppBootstrapperState extends State<_AppBootstrapper> {
   AppRouteParser routeParser = AppRouteParser();
-  AppRouterDelegate router;
+  late AppRouterDelegate router;
   @override
   void initState() {
     // Create the appRouter, and inject it with the models/services it needs.

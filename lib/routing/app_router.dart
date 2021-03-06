@@ -1,6 +1,7 @@
+import 'package:cannlytics_app/data/app_user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:cannlytics_app/_spikes/auth_spike.dart';
+// import 'package:cannlytics_app/_spikes/auth_spike.dart';
 import 'package:cannlytics_app/commands/books/set_current_book_command.dart';
 import 'package:cannlytics_app/commands/books/set_current_page_command.dart';
 import 'package:cannlytics_app/core_packages.dart';
@@ -49,11 +50,11 @@ class AppRouterDelegate extends RouterDelegate<AppLink> with ChangeNotifier {
     bool hasSetInitialRoute = appModel.hasSetInitialRoute;
     bool isGuestUser = appModel.isGuestUser;
     bool isAuthenticated = appModel.isAuthenticated;
-    String currentBookId = booksModel.currentBook?.documentId;
+    String? currentBookId = booksModel.currentBook.documentId;
     // Hold splash in place until our bootstrap cmd and any route parsing is done.
     bool showSplash = hasBootstrapped == false || hasSetInitialRoute == false;
     // See if we want to show a dev spike instead of the main app
-    Widget devSpike = _getDevSpike();
+    // Widget devSpike = _getDevSpike();
     // Wrap
     return MainAppScaffold(
       showAppBar: showSplash == false,
@@ -61,9 +62,10 @@ class AppRouterDelegate extends RouterDelegate<AppLink> with ChangeNotifier {
         onPopPage: _handleNavigatorPop,
         pages: [
           // Dev spike takes precedence
-          if (devSpike != null) ...[
-            devSpike,
-          ] else if (showSplash) ...[
+          // if (devSpike != null) ...[
+          //   devSpike,
+          // ] else
+          if (showSplash) ...[
             SplashPage(),
           ]
           // Guest users can only see the EditView in read-only mode
@@ -123,7 +125,8 @@ class AppRouterDelegate extends RouterDelegate<AppLink> with ChangeNotifier {
 
     // If we've been passed a .user that is not us, then logout, we'll enter guest mode for another user...
     if (newLink.user != null && newLink.user != appModel.currentUserEmail) {
-      appModel.currentUser = null; // Logout current user
+      appModel.currentUser =
+          AppUser(email: '', fireId: ''); // Logout current user
     }
 
     // If we're not authenticated, see if there's a userId in the link we can use..
@@ -136,8 +139,8 @@ class AppRouterDelegate extends RouterDelegate<AppLink> with ChangeNotifier {
 
     // Validate the ids that were passed in. At this point we're using either our existing authenticated user,
     // Or the guest user provided by the app link. In either case, we need to call firebase and validate the ids.
-    ScrapBookData book;
-    ScrapPageData page;
+    ScrapBookData book = ScrapBookData();
+    ScrapPageData page = ScrapPageData();
     if (newLink.bookId != null) {
       // Check if the bookId can be found
       book = await firebase.getBook(bookId: newLink.bookId);
@@ -149,7 +152,7 @@ class AppRouterDelegate extends RouterDelegate<AppLink> with ChangeNotifier {
               bookId: newLink.bookId, pageId: newLink.pageId);
         }
         // Otherwise, load the first page in the book using the pageOrder value
-        else if (book.pageOrder?.isNotEmpty ?? false) {
+        else if (book.pageOrder.isNotEmpty) {
           page = await firebase.getPage(
               bookId: book.documentId, pageId: book.pageOrder.first);
         }
@@ -164,7 +167,7 @@ class AppRouterDelegate extends RouterDelegate<AppLink> with ChangeNotifier {
   // Go back one level in our state if possible
   bool tryGoBack() {
     if (booksModel.currentBook != null) {
-      booksModel.currentBook = null;
+      booksModel.currentBook = ScrapBookData();
       return true; //true means we handled it
     }
     return false; //false lets the whole app go into background
@@ -186,17 +189,17 @@ class AppRouterDelegate extends RouterDelegate<AppLink> with ChangeNotifier {
   // endregion
 }
 
-Widget _getDevSpike() {
-  if (kReleaseMode) return null;
-  //return NativeFirebaseAuthSpike();
-  //return ModelCommandsSpike();
-  //return RestApiSpikes();
-  //return PopupPanelSpike();
-  //return TabBugRepro();
-  //return FiredartStreamSpike();
-  //return ButtonSheet();
-  //return DraggableMenuSpike();
-  //return ContextMenuSpike();
-  // ignore: dead_code
-  return null;
-}
+// Widget _getDevSpike() {
+//   if (kReleaseMode) return null;
+//   //return NativeFirebaseAuthSpike();
+//   //return ModelCommandsSpike();
+//   //return RestApiSpikes();
+//   //return PopupPanelSpike();
+//   //return TabBugRepro();
+//   //return FiredartStreamSpike();
+//   //return ButtonSheet();
+//   //return DraggableMenuSpike();
+//   //return ContextMenuSpike();
+//   // ignore: dead_code
+//   return null;
+// }
