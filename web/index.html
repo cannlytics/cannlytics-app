@@ -39,16 +39,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-firestore.js"></script>
   <script>
     // TODO: Add config with webpack?
-    var firebaseConfig = {
-      apiKey: "AIzaSyCWEMwQitfiSSAg21KcRb0YpNOhdyD4bak",
-      authDomain: "cannlytics.firebaseapp.com",
-      databaseURL: "https://cannlytics.firebaseio.com",
-      projectId: "cannlytics",
-      storageBucket: "cannlytics.appspot.com",
-      messagingSenderId: "464045168555",
-      appId: "1:464045168555:web:3edc939272be1ca9f624ee",
-      measurementId: "G-C9T5N9ZCZ5"
-    };
+    var firebaseConfig = {};
     if (!firebase.analytics || !navigator.cookieEnabled) {
       firebase.analytics = function() {};
     }
