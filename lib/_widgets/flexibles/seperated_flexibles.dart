@@ -14,16 +14,16 @@ class SeparatedRow extends StatelessWidget {
   final EdgeInsets padding;
 
   const SeparatedRow({
-    Key key,
-    this.children,
-    this.separatorBuilder,
+    required Key key,
+    required this.children,
+    required this.separatorBuilder,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.center,
     this.mainAxisSize = MainAxisSize.max,
     this.verticalDirection = VerticalDirection.down,
-    this.textBaseline,
-    this.textDirection,
-    this.padding,
+    this.textBaseline = TextBaseline.alphabetic,
+    this.textDirection = TextDirection.ltr,
+    this.padding = EdgeInsets.zero,
   }) : super(key: key);
 
   @override
@@ -57,16 +57,16 @@ class SeparatedColumn extends StatelessWidget {
   final EdgeInsets padding;
 
   const SeparatedColumn({
-    Key key,
-    this.children,
-    this.separatorBuilder,
+    required Key key,
+    required this.children,
+    required this.separatorBuilder,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.center,
     this.mainAxisSize = MainAxisSize.max,
     this.verticalDirection = VerticalDirection.down,
-    this.textBaseline,
-    this.textDirection,
-    this.padding,
+    this.textBaseline = TextBaseline.alphabetic,
+    this.textDirection = TextDirection.ltr,
+    this.padding = EdgeInsets.zero,
   }) : super(key: key);
 
   @override

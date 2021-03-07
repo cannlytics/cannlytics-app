@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 
 class AnimatedShadow extends StatelessWidget {
   AnimatedShadow({
-    Key key,
+    Key? key,
     required this.child,
     required this.duration,
     required this.blurs,
     required this.colors,
-    this.begin,
+    this.begin = 0,
     required this.end,
-    this.curve,
+    required this.curve,
   }) : super(key: key) {
     assert(blurs.length == colors.length,
         "blurs.length and colors.length must match");

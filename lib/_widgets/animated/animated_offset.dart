@@ -5,7 +5,7 @@ class AnimatedOffset extends StatelessWidget {
   AnimatedOffset({
     required this.child,
     required this.duration,
-    this.begin,
+    this.begin = const Offset(0, 0),
     required this.end,
     this.curve = Curves.easeOut,
   });
@@ -22,7 +22,7 @@ class AnimatedOffset extends StatelessWidget {
       tween: Tween(begin: begin ?? end, end: end),
       builder: (context, offset, _) => Transform.translate(
         offset: offset,
-        child: TopLeft(child: child),
+        child: TopLeft(key: GlobalKey(), child: child),
       ),
     );
   }

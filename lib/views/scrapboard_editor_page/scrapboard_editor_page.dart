@@ -53,17 +53,20 @@ class _BookEditorPageState extends State<BookEditorPage> {
             Positioned.fill(
               // Block EditorScrapboard layer from keyboard focus as it is optimized for mouse/touch controls
               child: NetworkedScrapboard(
-                  //bookId, pageId,
-                  // tweak the start-offset of the scrap-board depending on form factor
-                  startOffset: Offset(
-                    showSimpleView
-                        ? Insets.offset
-                        : 300, // More left padding when the full-menus are present
-                    showSimpleView
-                        ? 120
-                        : 60, // More top padding when the simple menu is present
-                  ),
-                  readOnly: widget.readOnly),
+                //bookId, pageId,
+                key: GlobalKey(),
+                onSelectionChanged: (data) {},
+                // tweak the start-offset of the scrap-board depending on form factor
+                startOffset: Offset(
+                  showSimpleView
+                      ? Insets.offset
+                      : 300, // More left padding when the full-menus are present
+                  showSimpleView
+                      ? 120
+                      : 60, // More top padding when the simple menu is present
+                ),
+                readOnly: widget.readOnly,
+              ),
             ),
           ] else ...[
             Padding(
@@ -78,7 +81,9 @@ class _BookEditorPageState extends State<BookEditorPage> {
           if (showSimpleView) ...[
             FocusTraversalGroup(
               child: TopLeft(
-                  child: SimplePagesMenu(pageList, selectedPageId: pageId)),
+                key: GlobalKey(),
+                child: SimplePagesMenu(pageList, selectedPageId: pageId),
+              ),
             ),
 
             /// Show scrap-button if not readOnly
@@ -92,13 +97,19 @@ class _BookEditorPageState extends State<BookEditorPage> {
           else ...{
             /// Collapsing Info and Page panels with Editable Text
             FocusTraversalGroup(
-              child: _InfoAndPagePanels(bookId, pageList, width: leftMenuWidth),
+              child: _InfoAndPagePanels(
+                bookId,
+                pageList,
+                key: GlobalKey(),
+                width: leftMenuWidth,
+              ),
             ),
 
             /// Content Picker, this should sit on top of everything
             /// as it has an internal Stack with an overlay-like layer
             FocusTraversalGroup(
-              child: ContentPickerMenuPanel(bookId: bookId, pageId: pageId),
+              child: ContentPickerMenuPanel(
+                  key: GlobalKey(), bookId: bookId, pageId: pageId),
             ),
           },
         ],
@@ -119,7 +130,8 @@ class _BookEditorPageState extends State<BookEditorPage> {
 
 /// Floating FAB style btn
 class _MobileScrapPileBtn extends StatelessWidget {
-  const _MobileScrapPileBtn({Key key, this.onPressed}) : super(key: key);
+  const _MobileScrapPileBtn({Key? key, required this.onPressed})
+      : super(key: key);
   final VoidCallback onPressed;
 
   @override
@@ -128,18 +140,20 @@ class _MobileScrapPileBtn extends StatelessWidget {
     bool touchMode = context.select((AppModel m) => m.enableTouchMode);
     double size = touchMode ? 60 : 50;
     return BottomRight(
+      key: GlobalKey(),
       child: Padding(
         padding: EdgeInsets.all(Insets.offset),
         child: AnimatedContainer(
-            duration: Times.fast,
-            curve: Curves.easeOut,
-            width: size,
-            height: size,
-            child: PrimaryBtn(
-              cornerRadius: 99,
-              onPressed: onPressed,
-              child: AppIcon(AppIcons.image, color: theme.surface1),
-            )),
+          duration: Times.fast,
+          curve: Curves.easeOut,
+          width: size,
+          height: size,
+          child: PrimaryBtn(
+            cornerRadius: 99,
+            onPressed: onPressed,
+            child: AppIcon(AppIcons.image, color: theme.surface1),
+          ),
+        ),
       ),
     );
   }
@@ -148,9 +162,13 @@ class _MobileScrapPileBtn extends StatelessWidget {
 /// Vertical stack of 2 menus
 /// TODO: This could be more responsive, using more height for the top panel, and more width for both panels when extended.
 class _InfoAndPagePanels extends StatelessWidget {
-  const _InfoAndPagePanels(this.bookId, this.pages,
-      {Key key, required this.width})
-      : super(key: key);
+  const _InfoAndPagePanels(
+    this.bookId,
+    this.pages, {
+    required Key key,
+    required this.width,
+  }) : super(key: key);
+
   final String bookId;
   final List<ScrapPageData> pages;
   final double width;
@@ -159,7 +177,8 @@ class _InfoAndPagePanels extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (_, constraints) {
-        // Calculate the size for the two stacked panels. Top one is fixed, the btm fills the remainder of the space.
+        // Calculate the size for the two stacked panels.
+        // Top one is fixed, the btm fills the remainder of the space.
         Size size = constraints.biggest;
         // Menu gets wider as screen size grows
         double panelWidth = width;
@@ -178,10 +197,18 @@ class _InfoAndPagePanels extends StatelessWidget {
               child: Column(
                 children: [
                   // Info Panel
-                  EditorPanelInfo(width: panelWidth, height: topPanelHeight),
+                  EditorPanelInfo(
+                    key: GlobalKey(),
+                    width: panelWidth,
+                    height: topPanelHeight,
+                  ),
                   VSpace.lg,
                   // Pages Panel
-                  DraggablePageMenuPanel(pages, height: bottomPanelHeight),
+                  DraggablePageMenuPanel(
+                    pages,
+                    key: GlobalKey(),
+                    height: bottomPanelHeight,
+                  ),
                 ],
               ), // BookPagesMenu(),
             )

@@ -40,7 +40,7 @@ dependencies:
   xdg_directories: ^0.1.2
   provider: ^5.0.0
   # random_color: ^1.0.5
-  sized_context:
+  sized_context: 1.0.0-nullsafety
   shortid: ^0.1.1
   shared_preferences: ^0.5.12+4
   share: ^0.6.5+4

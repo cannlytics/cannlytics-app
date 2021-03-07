@@ -21,13 +21,13 @@ enum BookColumnAlignment {
 class BookColumnHeader extends StatelessWidget {
   const BookColumnHeader(
     this.label, {
-    this.sortLabel,
-    Key key,
-    this.onPressed,
-    this.width,
-    this.height,
+    Key? key,
+    this.sortLabel = '',
+    required this.onPressed,
+    this.width = 0,
+    this.height = 0,
     this.hzAlignment = BookColumnAlignment.Center,
-    this.sortDir,
+    this.sortDir = 0,
   }) : super(key: key);
   final String label;
   final String sortLabel;
@@ -106,10 +106,11 @@ class BookColumnHeader extends StatelessWidget {
 
 class BookRowItem extends StatelessWidget {
   const BookRowItem(this.width, this.height, this.data,
-      {Key key,
+      {Key? key,
       this.hzAlignment = BookColumnAlignment.Center,
       this.type = ColType.Name})
       : super(key: key);
+
   final double width;
   final double height;
   final ScrapBookData data;
@@ -137,6 +138,7 @@ class BookRowItem extends StatelessWidget {
             child: Container(color: theme.bg1)),
         // Align the content to the bottom, allowing for a gap along top top.
         ContextMenuRegion(
+          key: GlobalKey(),
           contextMenu: BookContextMenu(data),
           child: Align(
               alignment: Alignment.bottomRight,
@@ -159,7 +161,7 @@ class BookRowItem extends StatelessWidget {
 }
 
 class ImageAndNameContent extends StatelessWidget {
-  const ImageAndNameContent(this.data, {Key key, required this.width})
+  const ImageAndNameContent(this.data, {Key? key, required this.width})
       : super(key: key);
   final double width;
   final ScrapBookData data;
@@ -175,26 +177,29 @@ class ImageAndNameContent extends StatelessWidget {
         // Black Fade
         Align(
           alignment: Alignment.centerRight,
-          child: HzGradient([
-            Colors.black.withOpacity(0),
-            Colors.black.withOpacity(1)
-          ], [
-            0,
-            1
-          ], width: 400),
+          child: HzGradient(
+            [
+              Colors.black.withOpacity(0),
+              Colors.black.withOpacity(1),
+            ],
+            [0, 1],
+            key: GlobalKey(),
+            child: Container(),
+            width: 400,
+          ),
         ),
 
         FadeIn(
           duration: Times.medium,
           child: Align(
             alignment: Alignment.bottomCenter,
-            child: VtGradient([
-              Colors.black.withOpacity(0),
-              Colors.black.withOpacity(1)
-            ], [
-              0,
-              1
-            ], height: 100),
+            child: VtGradient(
+              [Colors.black.withOpacity(0), Colors.black.withOpacity(1)],
+              [0, 1],
+              key: GlobalKey(),
+              child: Container(),
+              height: 100,
+            ),
           ),
         ),
 
@@ -225,7 +230,7 @@ class ImageAndNameContent extends StatelessWidget {
 }
 
 class TextContent extends StatelessWidget {
-  const TextContent({Key key, this.text}) : super(key: key);
+  const TextContent({Key? key, this.text = ''}) : super(key: key);
   final String text;
 
   @override

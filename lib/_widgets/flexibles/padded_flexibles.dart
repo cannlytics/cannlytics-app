@@ -11,15 +11,15 @@ class PaddedRow extends StatelessWidget {
   final EdgeInsets padding;
 
   const PaddedRow({
-    Key key,
-    this.children,
+    required Key key,
+    required this.children,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.center,
     this.mainAxisSize = MainAxisSize.max,
     this.verticalDirection = VerticalDirection.down,
-    this.textBaseline,
-    this.textDirection,
-    this.padding,
+    this.textBaseline = TextBaseline.alphabetic,
+    this.textDirection = TextDirection.ltr,
+    this.padding = EdgeInsets.zero,
   }) : super(key: key);
 
   @override
@@ -49,15 +49,15 @@ class PaddedColumn extends StatelessWidget {
   final EdgeInsets padding;
 
   const PaddedColumn({
-    Key key,
-    this.children,
+    required Key key,
+    required this.children,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.center,
     this.mainAxisSize = MainAxisSize.max,
     this.verticalDirection = VerticalDirection.down,
-    this.textBaseline,
-    this.textDirection,
-    this.padding,
+    this.textBaseline = TextBaseline.alphabetic,
+    this.textDirection = TextDirection.ltr,
+    this.padding = EdgeInsets.zero,
   }) : super(key: key);
 
   @override

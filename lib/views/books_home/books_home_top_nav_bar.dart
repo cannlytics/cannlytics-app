@@ -6,9 +6,13 @@ import 'package:cannlytics_app/models/app_model.dart';
 import 'package:cannlytics_app/models/books_model.dart';
 
 class BooksHomeTopNavBar extends StatelessWidget {
-  const BooksHomeTopNavBar(
-      {Key key, this.invertText, this.onToggled, this.showListView})
-      : super(key: key);
+  const BooksHomeTopNavBar({
+    Key? key,
+    this.invertText = false,
+    required this.onToggled,
+    this.showListView = false,
+  }) : super(key: key);
+
   final void Function(bool value) onToggled;
   final bool showListView;
   final bool invertText;

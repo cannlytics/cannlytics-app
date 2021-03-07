@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 // Some mixins to save boilerplate and prevent bugs around setup/teardown of AnimationControllers
-mixin AnimationMixin1<T extends StatefulWidget> on State<T>, TickerProviderStateMixin<T> {
-  AnimationController anim1;
+mixin AnimationMixin1<T extends StatefulWidget>
+    on State<T>, TickerProviderStateMixin<T> {
+  late AnimationController anim1;
 
   @override
   void initState() {
@@ -23,9 +24,10 @@ mixin AnimationMixin1<T extends StatefulWidget> on State<T>, TickerProviderState
   void resetAnims() => anim1.reset();
 }
 
-mixin AnimationMixin2<T extends StatefulWidget> on State<T>, TickerProviderStateMixin<T> {
-  AnimationController anim1;
-  AnimationController anim2;
+mixin AnimationMixin2<T extends StatefulWidget>
+    on State<T>, TickerProviderStateMixin<T> {
+  late AnimationController anim1;
+  late AnimationController anim2;
 
   @override
   void initState() {
@@ -51,10 +53,11 @@ mixin AnimationMixin2<T extends StatefulWidget> on State<T>, TickerProviderState
   }
 }
 
-mixin AnimationMixin3<T extends StatefulWidget> on State<T>, TickerProviderStateMixin<T> {
-  AnimationController anim1;
-  AnimationController anim2;
-  AnimationController anim3;
+mixin AnimationMixin3<T extends StatefulWidget>
+    on State<T>, TickerProviderStateMixin<T> {
+  late AnimationController anim1;
+  late AnimationController anim2;
+  late AnimationController anim3;
 
   @override
   void initState() {
@@ -83,11 +86,12 @@ mixin AnimationMixin3<T extends StatefulWidget> on State<T>, TickerProviderState
   }
 }
 
-mixin AnimationMixin4<T extends StatefulWidget> on State<T>, TickerProviderStateMixin<T> {
-  AnimationController anim1;
-  AnimationController anim2;
-  AnimationController anim3;
-  AnimationController anim4;
+mixin AnimationMixin4<T extends StatefulWidget>
+    on State<T>, TickerProviderStateMixin<T> {
+  late AnimationController anim1;
+  late AnimationController anim2;
+  late AnimationController anim3;
+  late AnimationController anim4;
 
   @override
   void initState() {

@@ -11,8 +11,7 @@ import 'popover_notifications.dart';
 /// Context listens for Notifications, and inserts/removes layers from the Overlay stack in response.
 /// The context wraps the content in a
 class PopOverController extends StatefulWidget {
-  const PopOverController({required Key key, required this.child})
-      : super(key: key);
+  const PopOverController({Key? key, required this.child}) : super(key: key);
   final Widget child;
 
   @override
@@ -38,7 +37,7 @@ class PopOverControllerState extends State<PopOverController> {
     _sizeNotifier?.value = Size(0, 0);
     barrierOverlay?.remove();
     mainContentOverlay?.remove();
-    barrierOverlay = mainContentOverlay = null;
+    barrierOverlay = mainContentOverlay;
   }
 
   bool _handleNotification(Notification n) {
@@ -125,11 +124,11 @@ class MeasureSizeRenderObject extends RenderProxyBox {
   MeasureSizeRenderObject(this.onChange);
   void Function(Size size) onChange;
 
-  Size _prevSize;
+  late Size _prevSize;
   @override
   void performLayout() {
     super.performLayout();
-    Size newSize = child.size;
+    Size newSize = child?.size ?? Size(0, 0);
     if (_prevSize == newSize) return;
     _prevSize = newSize;
     WidgetsBinding.instance?.addPostFrameCallback((_) => onChange(newSize));

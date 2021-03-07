@@ -6,9 +6,9 @@ class AnimatedIndexStack extends StatefulWidget {
   final Duration duration;
 
   const AnimatedIndexStack({
-    Key key,
-    this.index,
-    this.children,
+    Key? key,
+    this.index = 0,
+    this.children = const <Container>[],
     this.duration = const Duration(milliseconds: 250),
   }) : super(key: key);
 
@@ -16,8 +16,9 @@ class AnimatedIndexStack extends StatefulWidget {
   _AnimatedIndexStackState createState() => _AnimatedIndexStackState();
 }
 
-class _AnimatedIndexStackState extends State<AnimatedIndexStack> with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+class _AnimatedIndexStackState extends State<AnimatedIndexStack>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
 
   @override
   void didUpdateWidget(AnimatedIndexStack oldWidget) {

@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 
 // Simple wrapper around CachedNetworkImage that provides any boilerplate we need for images in the app
 class HostedImage extends StatelessWidget {
-  const HostedImage(this.url, {Key key, this.fit = BoxFit.cover}) : super(key: key);
+  const HostedImage(
+    this.url, {
+    Key? key,
+    this.fit = BoxFit.cover,
+  }) : super(key: key);
+
   final String url;
   final BoxFit fit;
 

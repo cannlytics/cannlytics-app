@@ -24,14 +24,16 @@ class _AppTitleBarDesktop extends StatelessWidget {
             HSpace(80), // Reserve some space for the native btns
             if (showBackBtn) _BackBtn(),
             Spacer(),
-            if (showTouchToggle) _TouchModeToggleBtn(invertPopupAlign: isMac),
+            if (showTouchToggle)
+              _TouchModeToggleBtn(key: GlobalKey(), invertPopupAlign: isMac),
             HSpace.med,
             _AdaptiveProfileBtn(invertRow: true, useBottomSheet: isMobile),
           ] else ...[
             // Linux and Windows are left aligned and simple
             _AdaptiveProfileBtn(useBottomSheet: isMobile),
             HSpace.sm,
-            if (showTouchToggle) _TouchModeToggleBtn(invertPopupAlign: isMac),
+            if (showTouchToggle)
+              _TouchModeToggleBtn(key: GlobalKey(), invertPopupAlign: isMac),
             HSpace.sm,
             if (showBackBtn) _BackBtn(),
           ]
@@ -42,7 +44,7 @@ class _AppTitleBarDesktop extends StatelessWidget {
 }
 
 class _TouchModeToggleBtn extends StatelessWidget {
-  const _TouchModeToggleBtn({Key key, required this.invertPopupAlign})
+  const _TouchModeToggleBtn({required Key key, required this.invertPopupAlign})
       : super(key: key);
   final bool invertPopupAlign;
 

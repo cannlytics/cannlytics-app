@@ -26,16 +26,16 @@ enum PopOverRegionMode {
 }
 
 class PopOverRegion extends StatefulWidget {
-  PopOverRegion(
-      {Key key,
-      required this.child,
-      required this.popChild,
-      this.anchor,
-      this.popAnchor,
-      this.barrierDismissable,
-      this.barrierColor,
-      this.mode})
-      : super(key: key);
+  PopOverRegion({
+    Key? key,
+    required this.child,
+    required this.popChild,
+    this.anchor = Alignment.topLeft,
+    this.popAnchor = Alignment.topLeft,
+    this.barrierDismissable = true,
+    this.barrierColor = Colors.transparent,
+    this.mode = PopOverRegionMode.Hover,
+  }) : super(key: key);
   final Widget child;
   final Widget popChild;
   final bool barrierDismissable;
@@ -48,29 +48,31 @@ class PopOverRegion extends StatefulWidget {
 
   // Non-interactive tool-tips, triggered on a delayed hover. Auto-close when you roll-out of the PopOverRegion
   static PopOverRegion hover(
-      {Widget child,
-      Widget popChild,
-      Alignment anchor,
-      Alignment popAnchor,
-      Key key}) {
+      {required Widget child,
+      required Widget popChild,
+      Alignment anchor = Alignment.topLeft,
+      Alignment popAnchor = Alignment.topLeft,
+      Key? key}) {
     return PopOverRegion(
-        key: key,
-        child: child,
-        popChild: popChild,
-        anchor: anchor,
-        popAnchor: popAnchor,
-        mode: PopOverRegionMode.Hover);
+      key: key,
+      child: child,
+      popChild: popChild,
+      anchor: anchor,
+      popAnchor: popAnchor,
+      mode: PopOverRegionMode.Hover,
+    );
   }
 
   // Click to open/close. Use for interactive panels, or other elements that should close themselves
-  static PopOverRegion click(
-      {Key key,
-      Widget child,
-      Widget popChild,
-      Alignment anchor,
-      Alignment popAnchor,
-      bool barrierDismissable,
-      Color barrierColor}) {
+  static PopOverRegion click({
+    Key? key,
+    required Widget child,
+    required Widget popChild,
+    Alignment anchor = Alignment.topLeft,
+    Alignment popAnchor = Alignment.topLeft,
+    bool barrierDismissable = true,
+    Color barrierColor = Colors.transparent,
+  }) {
     return PopOverRegion(
       key: key,
       child: child,
@@ -84,37 +86,39 @@ class PopOverRegion extends StatefulWidget {
   }
 
   static PopOverRegion hoverWithClick({
-    Key key,
+    Key? key,
     required Widget child,
     bool barrierDismissable = true,
-    Color barrierColor,
+    Color barrierColor = Colors.transparent,
     required Widget hoverPopChild,
-    Alignment hoverAnchor,
-    Alignment hoverPopAnchor,
+    Alignment hoverAnchor = Alignment.topLeft,
+    Alignment hoverPopAnchor = Alignment.topLeft,
     required Widget clickPopChild,
-    Alignment clickAnchor,
-    Alignment clickPopAnchor,
+    Alignment clickAnchor = Alignment.topLeft,
+    Alignment clickPopAnchor = Alignment.topLeft,
   }) {
     return click(
-        key: key,
-        anchor: clickAnchor,
-        barrierColor: barrierColor,
-        barrierDismissable: barrierDismissable,
-        popChild: clickPopChild,
-        popAnchor: clickPopAnchor,
-        child: hover(
-            popAnchor: hoverPopAnchor,
-            popChild: hoverPopChild,
-            anchor: hoverAnchor,
-            child: child));
+      key: key,
+      anchor: clickAnchor,
+      barrierColor: barrierColor,
+      barrierDismissable: barrierDismissable,
+      popChild: clickPopChild,
+      popAnchor: clickPopAnchor,
+      child: hover(
+        popAnchor: hoverPopAnchor,
+        popChild: hoverPopChild,
+        anchor: hoverAnchor,
+        child: child,
+      ),
+    );
   }
 }
 
 class PopOverRegionState extends State<PopOverRegion> {
-  Timer _timer;
+  late Timer _timer;
   LayerLink _link = LayerLink();
 
-  PopOverControllerState _popContext;
+  late PopOverControllerState _popContext;
   @override
   Widget build(BuildContext context) {
     Widget content;
@@ -134,7 +138,7 @@ class PopOverRegionState extends State<PopOverRegion> {
           // Don't close if the overlay is open, it means we've been replaced by a Click action.
           if (_popContext?.isBarrierOpen == false) {
             ClosePopoverNotification().dispatch(context);
-            _popContext = null;
+            _popContext;
           }
         },
         child: widget.child,
@@ -148,7 +152,8 @@ class PopOverRegionState extends State<PopOverRegion> {
   void show() {
     if (widget.popChild == null || mounted == false) return;
     ShowPopOverNotification(
-            // Send context with the notification, so the Overlay can use it to send more messages in the future.
+            // Send context with the notification, so
+            // the Overlay can use it to send more messages in the future.
             context,
             // Provide a link so Flutter will auto-position for us
             _link,

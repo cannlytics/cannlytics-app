@@ -13,7 +13,8 @@ import 'book_cover/book_cover.dart';
 
 /// Holds a list of [BookCover] and a Stack that features one of them in a Fullscreen format.
 class CoversFlowList extends StatefulWidget {
-  const CoversFlowList({Key key, this.books}) : super(key: key);
+  const CoversFlowList({Key? key, this.books = const <ScrapBookData>[]})
+      : super(key: key);
   final List<ScrapBookData> books;
 
   @override
@@ -21,9 +22,9 @@ class CoversFlowList extends StatefulWidget {
 }
 
 class _CoversFlowListState extends State<CoversFlowList> {
-  ScrapBookData _bgBook;
-  ScrapBookData _fgBook;
-  Offset _currentCardPos;
+  late ScrapBookData _bgBook;
+  late ScrapBookData _fgBook;
+  Offset _currentCardPos = Offset(0, 0);
   bool _isOpening = false;
   ScrollController _scrollController = ScrollController();
   Map<int, GlobalKey<_CollapsingListCardState>> keysByIndex = {};
@@ -39,8 +40,8 @@ class _CoversFlowListState extends State<CoversFlowList> {
   @override
   void didUpdateWidget(covariant CoversFlowList oldWidget) {
     if (oldWidget.books != widget.books) {
-      String currentId = _bgBook?.documentId;
-      _bgBook = null;
+      String currentId = _bgBook?.documentId ?? '';
+      _bgBook = ScrapBookData();
       widget.books.forEach((b) {
         if (b.documentId == _fgBook.documentId) {
           _fgBook = b;
@@ -76,6 +77,7 @@ class _CoversFlowListState extends State<CoversFlowList> {
                 /// BackgroundCard, this gets updated when the OpeningCard finishes opening
                 if (_bgBook != null) ...[
                   ContextMenuRegion(
+                    key: GlobalKey(),
                     contextMenu: BookContextMenu(_bgBook),
                     child: BookCoverWidget(_bgBook, largeMode: true),
                   ),
@@ -88,6 +90,7 @@ class _CoversFlowListState extends State<CoversFlowList> {
                   Positioned.fill(
                     key: ObjectKey(_fgBook),
                     child: AutoFade(
+                      key: GlobalKey(),
                       duration: Times.slow,
                       child: IgnorePointer(
                         child: Container(color: Colors.black.withOpacity(.9)),
@@ -148,7 +151,7 @@ class _CoversFlowListState extends State<CoversFlowList> {
     );
   }
 
-  GlobalKey<_CollapsingListCardState> _getKey(int index) {
+  GlobalKey<_CollapsingListCardState>? _getKey(int index) {
     if (keysByIndex.containsKey(index) == false) {
       keysByIndex[index] = GlobalKey<_CollapsingListCardState>();
     }
@@ -164,8 +167,8 @@ class _CoversFlowListState extends State<CoversFlowList> {
     // This list doesn't support looping, do nothing if they try and scroll out of bounds
     if (newIndex < 0 || newIndex > widget.books.length - 1) return;
     // Get a key for the nextCard, and trigger it's pressed event
-    GlobalKey<_CollapsingListCardState> nextCard = _getKey(newIndex);
-    nextCard.currentState._handlePressed();
+    GlobalKey<_CollapsingListCardState>? nextCard = _getKey(newIndex);
+    nextCard?.currentState?._handlePressed();
     // Scroll the list in the appropriate amt
     // Some aesthetic polish, we want to skip scrolling on the first card
     if (currentIndex == 0 && scrollDir > 0) return;
@@ -209,16 +212,17 @@ class _CoversFlowListState extends State<CoversFlowList> {
 }
 
 class _CollapsingListCard extends StatefulWidget {
-  _CollapsingListCard(this.data,
-      {this.openWidth,
-      this.openHeight,
-      required this.onPressed,
-      required this.isSelected,
-      this.vertical = false,
-      this.closedWidth,
-      this.closedHeight,
-      Key key})
-      : assert(openWidth != null || openHeight != null),
+  _CollapsingListCard(
+    this.data, {
+    Key? key,
+    this.openWidth = 0,
+    this.openHeight = 0,
+    required this.onPressed,
+    required this.isSelected,
+    this.vertical = false,
+    this.closedWidth = 0,
+    this.closedHeight = 0,
+  })  : assert(openWidth != null || openHeight != null),
         super(key: key);
 
   final ScrapBookData data;
@@ -254,13 +258,14 @@ class _CollapsingListCardState extends State<_CollapsingListCard> {
           : EdgeInsets.only(bottom: gap),
       // Mask the rounded corners
       child: SimpleBtn(
-        onPressed: widget.isSelected ? null : _handlePressed,
+        onPressed: widget.isSelected ? () {} : _handlePressed,
         child: Stack(
           children: [
             ClipRRect(
               borderRadius: Corners.medBorder,
               // BookCover Card
               child: ContextMenuRegion(
+                key: GlobalKey(),
                 contextMenu: BookContextMenu(widget.data),
                 child: Stack(
                   children: [
@@ -269,11 +274,13 @@ class _CollapsingListCardState extends State<_CollapsingListCard> {
                       isSelected: widget.isSelected,
                       //Disable btn if we're currently selected
                       onPressed: widget.isSelected
-                          ? null
+                          ? (Offset pos) {}
                           : (Offset pos) => widget.onPressed(pos, widget.data),
                     ),
                     // Super-subtle outline border
                     RoundedBorder(
+                      key: GlobalKey(),
+                      child: Container(),
                       color: theme.greyStrong.withOpacity(.3),
                       width: 1.5,
                       radius: Corners.med,

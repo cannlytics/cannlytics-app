@@ -127,7 +127,10 @@ class _SideGradient extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         width: 800,
         child: HzGradient(
-            [Colors.black.withOpacity(.75), Colors.black.withOpacity(0)],
-            [.2, 1]),
+          [Colors.black.withOpacity(.75), Colors.black.withOpacity(0)],
+          [.2, 1],
+          key: GlobalKey(),
+          child: Container(),
+        ),
       );
 }

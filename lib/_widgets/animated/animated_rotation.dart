@@ -7,7 +7,7 @@ class AnimatedRotation extends StatelessWidget {
     required this.begin,
     required this.duration,
     required this.child,
-    this.end,
+    this.end = 0,
     this.curve = Curves.linear,
   });
   final Widget child;

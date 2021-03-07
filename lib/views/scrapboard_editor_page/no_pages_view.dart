@@ -16,6 +16,7 @@ class NoPagesView extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 60),
           child: SeparatedColumn(
+            key: GlobalKey(),
             crossAxisAlignment: CrossAxisAlignment.start,
             separatorBuilder: () => VSpace.med,
             children: [

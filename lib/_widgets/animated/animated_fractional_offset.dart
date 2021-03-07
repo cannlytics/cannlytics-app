@@ -4,7 +4,7 @@ class AnimatedFractionalOffset extends StatelessWidget {
   AnimatedFractionalOffset({
     required this.child,
     required this.duration,
-    this.begin,
+    this.begin = const Offset(0, 0),
     required this.end,
     this.curve = Curves.easeOut,
   });

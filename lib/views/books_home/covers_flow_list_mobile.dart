@@ -10,7 +10,11 @@ import 'book_cover/book_cover_notifications.dart';
 
 /// Holds a list of [BookCover] and a Stack that features one of them in a Fullscreen format.
 class CoversFlowListMobile extends StatefulWidget {
-  const CoversFlowListMobile({Key key, this.books}) : super(key: key);
+  const CoversFlowListMobile({
+    Key? key,
+    this.books = const <ScrapBookData>[],
+  }) : super(key: key);
+
   final List<ScrapBookData> books;
 
   @override
@@ -18,11 +22,11 @@ class CoversFlowListMobile extends StatefulWidget {
 }
 
 class _CoversFlowListMobileState extends State<CoversFlowListMobile> {
-  ScrapBookData _bgBook;
-  ScrapBookData _fgBook;
-  int _previewBookIdx;
-  Offset _currentCardPos;
-  Offset _currentCursorPos;
+  late ScrapBookData _bgBook;
+  late ScrapBookData _fgBook;
+  late int _previewBookIdx;
+  Offset _currentCardPos = Offset(0, 0);
+  Offset _currentCursorPos = Offset(0, 0);
   bool _isOpening = false;
   bool _editingText = false;
 
@@ -123,9 +127,10 @@ class _CoversFlowListMobileState extends State<CoversFlowListMobile> {
   }
 
   void _handleVerticalSwipe(DragEndDetails details) {
-    if (details.primaryVelocity > 10) {
+    double velocity = details.primaryVelocity ?? 0;
+    if (velocity > 10) {
       _switchPreviousFolio();
-    } else if (details.primaryVelocity < -10) {
+    } else if (velocity < -10) {
       _switchNextFolio();
     }
   }

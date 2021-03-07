@@ -5,7 +5,8 @@ import 'package:cannlytics_app/models/app_model.dart';
 
 // Notification to trigger the ContextMenu
 class ShowContextMenuNotification extends Notification {
-  ShowContextMenuNotification({this.child, this.size});
+  ShowContextMenuNotification(
+      {required this.child, this.size = const Size(0, 0)});
   final Widget child;
   final Size size;
 }
@@ -51,12 +52,12 @@ class ContextMenuOverlay extends StatefulWidget {
 }
 
 class _ContextMenuOverlayState extends State<ContextMenuOverlay> {
-  Widget _currentMenu;
+  late Widget _currentMenu;
   Size _menuSize = Size.zero;
   Offset _mousePos = Offset.zero;
   Size _prevSize = Size(0, 0);
 
-  void closeCurrent() => setState(() => _currentMenu = null);
+  void closeCurrent() => setState(() => _currentMenu = Container());
 
   bool _handleNotificationReceived(Notification n) {
     if (n is ShowContextMenuNotification) {
@@ -76,7 +77,7 @@ class _ContextMenuOverlayState extends State<ContextMenuOverlay> {
   void nullMenuIfWindowsWasResized(BuildContext context) {
     final size = MediaQuery.of(context).size;
     bool appWasResized = size != _prevSize;
-    if (appWasResized) _currentMenu = null;
+    if (appWasResized) _currentMenu = Container();
     _prevSize = size;
   }
 
@@ -117,6 +118,7 @@ class _ContextMenuOverlayState extends State<ContextMenuOverlay> {
                   child: Opacity(
                     opacity: _menuSize != Size.zero ? 1 : 0,
                     child: _MeasureSize(
+                      key: GlobalKey(),
                       onChange: _handleMenuSizeChanged,
                       child: _currentMenu,
                     ),
@@ -135,14 +137,14 @@ class _MeasureSizeRenderObject extends RenderProxyBox {
   _MeasureSizeRenderObject(this.onChange);
   void Function(Size size) onChange;
 
-  Size _prevSize;
+  late Size _prevSize;
   @override
   void performLayout() {
     super.performLayout();
-    Size newSize = child.size;
+    Size newSize = child?.size ?? Size(0, 0);
     if (_prevSize == newSize) return;
     _prevSize = newSize;
-    WidgetsBinding.instance.addPostFrameCallback((_) => onChange(newSize));
+    WidgetsBinding.instance?.addPostFrameCallback((_) => onChange(newSize));
   }
 }
 

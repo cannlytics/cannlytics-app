@@ -54,6 +54,7 @@ class PlacedScrapRenderer extends StatelessWidget {
       item: item,
       enableKeyListener: isSelected,
       child: ContextMenuRegion(
+        key: GlobalKey(),
         contextMenu: ScrapContextMenu(scrap: item),
         child: Container(
           color: Colors.transparent,
