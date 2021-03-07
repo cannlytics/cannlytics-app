@@ -18,9 +18,9 @@ import 'package:provider/provider.dart';
 class BookCoverWidget extends StatefulWidget {
   const BookCoverWidget(
     this.data, {
-    Key key,
+    Key? key,
     this.isSelected = false,
-    this.onPressed,
+    required this.onPressed,
     this.largeMode = false,
     this.topTitle = false,
   }) : super(key: key);
@@ -84,6 +84,7 @@ class _BookCoverWidgetState extends State<BookCoverWidget> {
                   begin: 1,
                   end: isClickable ? 1.1 : 1,
                   child: BookCoverImage(widget.data),
+                  curve: Curves.elasticInOut,
                 ),
 
                 /// Black overlay, fades out on mouseOver
@@ -129,7 +130,10 @@ class _BookCoverWidgetState extends State<BookCoverWidget> {
                   Positioned.fill(
                       child: FadeIn(
                           child: RoundedBorder(
-                              color: theme.accent1, ignorePointer: false))),
+                              key: GlobalKey(),
+                              child: Container(),
+                              color: theme.accent1,
+                              ignorePointer: false))),
                 ],
               ]),
             ),

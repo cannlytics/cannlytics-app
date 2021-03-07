@@ -3,7 +3,7 @@ import 'package:cannlytics_app/commands/books/create_folio_command.dart';
 import 'package:cannlytics_app/core_packages.dart';
 
 class CreateFolioBottomSheetContent extends StatefulWidget {
-  const CreateFolioBottomSheetContent({Key key, this.onSubmit})
+  const CreateFolioBottomSheetContent({Key? key, required this.onSubmit})
       : super(key: key);
   final VoidCallback onSubmit;
 

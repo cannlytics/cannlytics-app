@@ -9,8 +9,11 @@ class BooksHomePageBottomNav extends StatelessWidget {
   final void Function(bool) onToggled;
   final VoidCallback onNewPressed;
 
-  BooksHomePageBottomNav(
-      {this.showListView = true, this.onToggled, this.onNewPressed});
+  BooksHomePageBottomNav({
+    this.showListView = true,
+    required this.onToggled,
+    required this.onNewPressed,
+  });
 
   Widget build(BuildContext context) {
     AppTheme theme = Provider.of(context);
@@ -73,8 +76,10 @@ class BooksHomePageBottomNav extends StatelessWidget {
 
 class _MobileNewFolioBtn extends StatelessWidget {
   Widget build(BuildContext context) {
-    void _handleNewPressed() =>
-        showStyledBottomSheet(context, child: CreateFolioBottomSheetContent());
+    void _handleNewPressed() => showStyledBottomSheet(context,
+        child: CreateFolioBottomSheetContent(
+          onSubmit: () {},
+        ));
 
     Decoration circleDec(Color c) =>
         ShapeDecoration(shape: CircleBorder(), color: c);

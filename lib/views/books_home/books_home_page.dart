@@ -64,19 +64,20 @@ class BooksHomePageState extends State<BooksHomePage> {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: BooksHomePageBottomNav(
-                        onToggled: _handleViewToggled,
-                        showListView: _showListView),
+                      onNewPressed: () {},
+                      onToggled: _handleViewToggled,
+                      showListView: _showListView,
+                    ),
                   ),
                 ] else ...[
                   BooksHomeTopNavBar(
-                      onToggled: _handleViewToggled,
-                      showListView: _showListView),
+                    onToggled: _handleViewToggled,
+                    showListView: _showListView,
+                  ),
                 ],
               ],
             ),
           );
-    //  },
-    //);
   }
 
   void _handleViewToggled(bool value) => setState(() => _showListView = value);

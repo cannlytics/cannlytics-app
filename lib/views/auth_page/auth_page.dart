@@ -24,8 +24,8 @@ class _AuthPageState extends State<AuthPage> with LoadingStateMixin {
   String get errorText => _errorText;
   set errorText(String errorText) => setState(() => _errorText = errorText);
 
-  TextEditingController _emailController;
-  TextEditingController _passController;
+  late TextEditingController _emailController;
+  late TextEditingController _passController;
 
   // Provided quick login for devs
   bool enableDebugLogin = kDebugMode && true;
@@ -52,7 +52,11 @@ class _AuthPageState extends State<AuthPage> with LoadingStateMixin {
         isCreatingAccount ? "Already have an account?" : "Create an account?";
     return Stack(
       children: [
-        ContextMenuRegion(contextMenu: AppContextMenu(), child: Container()),
+        ContextMenuRegion(
+          key: GlobalKey(),
+          contextMenu: AppContextMenu(),
+          child: Container(),
+        ),
         Center(
           child: IntrinsicHeight(
             child: Container(
@@ -74,6 +78,7 @@ class _AuthPageState extends State<AuthPage> with LoadingStateMixin {
                     child: ConstrainedBox(
                       constraints: BoxConstraints(maxWidth: 300),
                       child: SeparatedColumn(
+                        key: GlobalKey(),
                         separatorBuilder: () => VSpace.med,
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -117,9 +122,10 @@ class _AuthPageState extends State<AuthPage> with LoadingStateMixin {
                           isLoading
                               ? StyledLoadSpinner()
                               : PrimaryBtn(
+                                  key: GlobalKey(),
                                   onPressed: enableSubmit
                                       ? _handleSubmitPressed
-                                      : null,
+                                      : () {},
                                   child: Container(
                                       alignment: Alignment.center,
                                       width: 200,
@@ -145,12 +151,12 @@ class _AuthPageState extends State<AuthPage> with LoadingStateMixin {
   void _handleSubmitPressed() async {
     if (enableSubmit == false) return;
     errorText = "";
-    bool success = await load(() async => await AuthenticateUserCommand().run(
+    bool? success = await load(() async => await AuthenticateUserCommand().run(
           email: _emailController.text,
           pass: _passController.text,
           createNew: formMode == _AuthFormMode.CreateAccount,
         ));
-    if (!success) {
+    if (success == null) {
       errorText = formMode == _AuthFormMode.SignIn
           ? "Sign in failed. Double check your email and password."
           : "Unable to create an account, that email is already in use.";

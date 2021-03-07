@@ -12,9 +12,12 @@ class CoversSortableList extends StatefulWidget {
   final List<ScrapBookData> books;
   final double rowHeight;
   final bool isMobile;
-  const CoversSortableList(
-      {Key key, this.books, this.rowHeight = 120, this.isMobile = false})
-      : super(key: key);
+  const CoversSortableList({
+    this.books = const <ScrapBookData>[],
+    this.rowHeight = 120,
+    this.isMobile = false,
+    Key? key,
+  }) : super(key: key);
 
   State createState() => _CoversSortableListState();
 }
@@ -70,9 +73,8 @@ class _CoversSortableListState extends State<CoversSortableList> {
                             columns: [
                               DataColumn(
                                 label: BookColumnHeader("Name",
-                                    sortLabel: widget.isMobile
-                                        ? "Last Modified"
-                                        : null,
+                                    sortLabel:
+                                        widget.isMobile ? "Last Modified" : '',
                                     onPressed: () => _handleColumnPressed(
                                         widget.isMobile
                                             ? ColType.Modified

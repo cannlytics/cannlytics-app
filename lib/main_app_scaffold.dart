@@ -38,6 +38,7 @@ class _MainAppScaffoldState extends State<MainAppScaffold> {
           textDirection: textDirection,
           // Right-click support
           child: ContextMenuOverlay(
+            key: GlobalKey(),
             child: Navigator(
               onPopPage: (Route route, result) {
                 if (route.didPop(result)) return true;

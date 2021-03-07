@@ -12,7 +12,7 @@ import 'book_cover_notifications.dart';
 
 /// Represents the Widget in "Large Mode"
 class LargeBookCover extends StatefulWidget {
-  const LargeBookCover(this.book, {Key key}) : super(key: key);
+  const LargeBookCover(this.book, {Key? key}) : super(key: key);
   final ScrapBookData book;
 
   @override

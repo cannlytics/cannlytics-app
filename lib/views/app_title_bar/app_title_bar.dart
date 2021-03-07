@@ -51,6 +51,7 @@ class _TitleText extends StatelessWidget {
               child: AppLogoText(constraints: BoxConstraints(maxHeight: 12))),
           if (enableVersion) ...[
             BottomCenter(
+                key: GlobalKey(),
                 child: Text("v" + AppModel.kVersion,
                     style: TextStyles.body3
                         .copyWith(fontSize: 10, color: Colors.grey))),
@@ -89,12 +90,13 @@ class _BackBtn extends StatelessWidget {
 }
 
 class _AdaptiveProfileBtn extends StatelessWidget {
-  const _AdaptiveProfileBtn(
-      {Key key,
-      this.useBottomSheet = false,
-      this.invertRow = false,
-      this.isVisible = true})
-      : super(key: key);
+  const _AdaptiveProfileBtn({
+    this.useBottomSheet = false,
+    this.invertRow = false,
+    this.isVisible = true,
+    Key? key,
+  }) : super(key: key);
+
   final bool useBottomSheet;
   final bool invertRow;
   final bool isVisible;
@@ -110,21 +112,22 @@ class _AdaptiveProfileBtn extends StatelessWidget {
     );
 
     return Visibility(
-        visible: isVisible,
-        child: useBottomSheet
-            ? SimpleBtn(
-                onPressed: () => _showProfileSheet(context),
-                child: profileIcon,
-              )
-            : PopOverRegion.click(
-                popChild: ClipRect(
-                  child: ProfileEditorCard(),
-                  //child: Container(width: 100, height: 100, color: Colors.red),
-                ),
-                popAnchor: invertRow ? Alignment.topRight : Alignment.topLeft,
-                anchor:
-                    invertRow ? Alignment.bottomRight : Alignment.bottomLeft,
-                child: profileIcon));
+      visible: isVisible,
+      child: useBottomSheet
+          ? SimpleBtn(
+              onPressed: () => _showProfileSheet(context),
+              child: profileIcon,
+            )
+          : PopOverRegion.click(
+              popChild: ClipRect(
+                child: ProfileEditorCard(),
+                //child: Container(width: 100, height: 100, color: Colors.red),
+              ),
+              popAnchor: invertRow ? Alignment.topRight : Alignment.topLeft,
+              anchor: invertRow ? Alignment.bottomRight : Alignment.bottomLeft,
+              child: profileIcon,
+            ),
+    );
   }
 
   void _showProfileSheet(BuildContext context) {

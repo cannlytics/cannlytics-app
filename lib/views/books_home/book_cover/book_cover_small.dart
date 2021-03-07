@@ -5,7 +5,8 @@ import 'package:cannlytics_app/data/book_data.dart';
 import 'package:provider/provider.dart';
 
 class SmallBookCover extends StatefulWidget {
-  const SmallBookCover(this.book, {Key key, this.topTitle}) : super(key: key);
+  const SmallBookCover(this.book, {Key? key, this.topTitle = true})
+      : super(key: key);
   final ScrapBookData book;
   final bool topTitle;
 
