@@ -8,7 +8,7 @@ class AutoFade extends StatefulWidget {
   final Curve curve;
 
   const AutoFade({
-    Key key,
+    required Key key,
     required this.child,
     this.delay = Duration.zero,
     this.offset = Offset.zero,
@@ -21,8 +21,8 @@ class AutoFade extends StatefulWidget {
 
 class _AutoFadeState extends State<AutoFade>
     with SingleTickerProviderStateMixin {
-  AnimationController animController;
-  Animation<double> anim;
+  late AnimationController animController;
+  late Animation<double> anim;
 
   @override
   void initState() {

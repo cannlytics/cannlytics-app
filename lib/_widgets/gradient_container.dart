@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 
 class GradientContainer extends StatelessWidget {
   const GradientContainer(this.colors, this.stops,
-      {Key key, this.child, this.width, this.height, this.alignment, this.begin, this.end})
+      {required Key key,
+      required this.child,
+      this.width = 0,
+      this.height = 0,
+      this.alignment = Alignment.topLeft,
+      this.begin = Alignment.topRight,
+      this.end = Alignment.bottomLeft})
       : super(key: key);
+
   final double width;
   final double height;
   final Widget child;
@@ -31,8 +38,16 @@ class GradientContainer extends StatelessWidget {
 }
 
 class HzGradient extends StatelessWidget {
-  const HzGradient(this.colors, this.stops, {Key key, this.child, this.width, this.height, this.alignment})
-      : super(key: key);
+  const HzGradient(
+    this.colors,
+    this.stops, {
+    required Key key,
+    required this.child,
+    this.width = 0,
+    this.height = 0,
+    this.alignment = Alignment.topLeft,
+  }) : super(key: key);
+
   final List<Color> colors;
   final List<double> stops;
   final double width;
@@ -41,13 +56,27 @@ class HzGradient extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) =>
-      GradientContainer(colors, stops, width: width, height: height, alignment: alignment, child: child);
+  Widget build(BuildContext context) => GradientContainer(
+        colors,
+        stops,
+        key: GlobalKey(),
+        width: width,
+        height: height,
+        alignment: alignment,
+        child: child,
+      );
 }
 
 class VtGradient extends StatelessWidget {
-  const VtGradient(this.colors, this.stops, {Key key, this.child, this.width, this.height, this.alignment})
-      : super(key: key);
+  const VtGradient(
+    this.colors,
+    this.stops, {
+    required Key key,
+    required this.child,
+    this.width = 0,
+    this.height = 0,
+    this.alignment = Alignment.topLeft,
+  }) : super(key: key);
   final List<Color> colors;
   final List<double> stops;
   final double width;
@@ -56,11 +85,15 @@ class VtGradient extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => GradientContainer(colors, stops,
-      width: width,
-      height: height,
-      alignment: alignment,
-      child: child,
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter);
+  Widget build(BuildContext context) => GradientContainer(
+        colors,
+        stops,
+        key: GlobalKey(),
+        width: width,
+        height: height,
+        alignment: alignment,
+        child: child,
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      );
 }

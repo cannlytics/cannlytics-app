@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cannlytics_app/data/book_data.dart';
 import 'package:flutter/material.dart';
 import 'package:cannlytics_app/_utils/debouncer.dart';
 import 'package:cannlytics_app/_utils/easy_notifier.dart';
@@ -49,7 +50,8 @@ class AppModel extends AbstractModel {
   }
 
   void reset() {
-    _currentUser = null;
+    _currentUser = AppUser(
+        email: 'contact@cannlytics.com', fireId: 'contact@cannlytics.com');
     _theme = _defaultTheme;
     enableTouchMode = _defaultTouchMode;
   }
@@ -66,7 +68,7 @@ class AppModel extends AbstractModel {
 
   /// Auth
   // Current User
-  AppUser _currentUser;
+  late AppUser _currentUser;
   AppUser get currentUser => _currentUser;
   set currentUser(AppUser currentUser) =>
       notify(() => _currentUser = currentUser);
@@ -75,7 +77,7 @@ class AppModel extends AbstractModel {
 
   bool get hasUser => currentUser != null;
   bool get isAuthenticated => hasUser && isFirebaseSignedIn;
-  String get currentUserEmail => currentUser?.email;
+  String get currentUserEmail => currentUser.email;
 
   /// Settings
   // Current Theme
@@ -109,7 +111,7 @@ class AppModel extends AbstractModel {
 
   bool popNav() {
     if (_booksModel.currentBook != null) {
-      _booksModel.currentBook = null;
+      _booksModel.currentBook = ScrapBookData();
       return true;
     }
     return false;

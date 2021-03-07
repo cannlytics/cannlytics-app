@@ -11,9 +11,9 @@ import 'package:cannlytics_app/models/app_model.dart';
 class DraggablePageTitleBtn extends StatefulWidget {
   const DraggablePageTitleBtn(
     this.page, {
-    Key key,
-    this.onPressed,
-    this.onDragCancelled,
+    required Key key,
+    required this.onPressed,
+    required this.onDragCancelled,
     required this.height,
     this.isSelected = false,
     this.isDragFeedback = false,
@@ -45,10 +45,15 @@ class _DraggablePageTitleBtnState extends State<DraggablePageTitleBtn> {
       return Draggable<ScrapPageData>(
           data: widget.page,
           // Make a copy of ourselves as the drag feedack
-          feedback: DraggablePageTitleBtn(widget.page,
-              height: widget.height,
-              isSelected: widget.isSelected,
-              isDragFeedback: true),
+          feedback: DraggablePageTitleBtn(
+            widget.page,
+            key: GlobalKey(),
+            height: widget.height,
+            isSelected: widget.isSelected,
+            isDragFeedback: true,
+            onPressed: () {},
+            onDragCancelled: () {},
+          ),
           onDragStarted: _handleDragStart,
           onDragEnd: _handleDragEnd,
           onDraggableCanceled: (_, __) => widget.onDragCancelled?.call(),
@@ -98,6 +103,7 @@ class _DraggablePageTitleBtnState extends State<DraggablePageTitleBtn> {
           if (!widget.isDragFeedback) ...[
             _wrapDraggable(
               _FadingDragHandle(
+                key: GlobalKey(),
                 width: 40,
                 height: double.infinity,
                 opacity: touchMode ? 1 : 0,
@@ -122,7 +128,7 @@ class _DraggablePageTitleBtnState extends State<DraggablePageTitleBtn> {
       contextMenu: GenericContextMenu(
         labels: ["View", "Delete"],
         actions: [
-          widget.isSelected ? null : widget.onPressed,
+          widget.isSelected ? () {} : widget.onPressed,
           _handleDeletePressed
         ],
       ),
@@ -143,7 +149,7 @@ class _DraggablePageTitleBtnState extends State<DraggablePageTitleBtn> {
 
 class _FadingDragHandle extends StatelessWidget {
   const _FadingDragHandle({
-    Key key,
+    required Key key,
     required this.height,
     required this.width,
     required this.opacity,

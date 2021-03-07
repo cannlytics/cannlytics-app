@@ -6,12 +6,12 @@ import 'package:cannlytics_app/models/books_model.dart';
 import 'package:cannlytics_app/views/scrapboard_editor_page/draggable_page_menu/draggable_page_title_btn.dart';
 
 class DraggablePagesMenu extends StatefulWidget {
-  const DraggablePagesMenu(
-      {Key key,
-      required this.pages,
-      required this.pageId,
-      required this.onPressed})
-      : super(key: key);
+  const DraggablePagesMenu({
+    required Key key,
+    required this.pages,
+    required this.pageId,
+    required this.onPressed,
+  }) : super(key: key);
   final List<ScrapPageData> pages;
   final String pageId;
   final void Function(ScrapPageData page) onPressed;
@@ -29,7 +29,7 @@ class DraggablePagesMenuState extends State<DraggablePagesMenu> {
   List<ScrapPageData> get pages => widget.pages;
   String get currentPageId => widget.pageId;
 
-  ScrollController _scrollController;
+  ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -81,6 +81,7 @@ class DraggablePagesMenuState extends State<DraggablePagesMenu> {
                     /// Show an outline for the selected index
                     if (hoverIndex != -1)
                       _SelectedPageOutline(
+                        key: GlobalKey(),
                         top: hoverIndex * menuItemHeight,
                         height: menuItemHeight,
                       ),
@@ -131,8 +132,11 @@ class DraggablePagesMenuState extends State<DraggablePagesMenu> {
 }
 
 class _SelectedPageOutline extends StatelessWidget {
-  const _SelectedPageOutline({Key key, required this.top, required this.height})
-      : super(key: key);
+  const _SelectedPageOutline({
+    required Key key,
+    required this.top,
+    required this.height,
+  }) : super(key: key);
   final double top;
   final double height;
 

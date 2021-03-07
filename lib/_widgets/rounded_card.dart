@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:cannlytics_app/styles.dart';
 
 class RoundedCard extends StatelessWidget {
-  const RoundedCard({Key key, this.child, this.radius}) : super(key: key);
+  const RoundedCard({
+    required Key key,
+    required this.child,
+    required this.radius,
+  }) : super(key: key);
   final Widget child;
   final double radius;
 
@@ -14,14 +18,14 @@ class RoundedCard extends StatelessWidget {
 }
 
 class RoundedBorder extends StatelessWidget {
-  const RoundedBorder(
-      {Key key,
-      this.color,
-      this.width,
-      this.radius,
-      this.ignorePointer = true,
-      this.child})
-      : super(key: key);
+  const RoundedBorder({
+    required Key key,
+    this.color = Colors.transparent,
+    this.width = 3,
+    this.radius = 3,
+    this.ignorePointer = true,
+    required this.child,
+  }) : super(key: key);
   final Color color;
   final double width;
   final double radius;

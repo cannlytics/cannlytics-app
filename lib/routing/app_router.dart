@@ -37,7 +37,7 @@ class AppRouterDelegate extends RouterDelegate<AppLink> with ChangeNotifier {
 
   @override
   // Return an AppLink, representing the current app state
-  AppLink get currentConfiguration => AppLink()
+  AppLink get currentConfiguration => AppLink(user: '')
     ..user = firebase.userId
     ..bookId = booksModel.currentBookId
     ..pageId = booksModel.currentPageId;
@@ -71,7 +71,11 @@ class AppRouterDelegate extends RouterDelegate<AppLink> with ChangeNotifier {
           ]
           // Guest users can only see the EditView in read-only mode
           else if (isGuestUser) ...[
-            BookEditorPage(bookId: currentBookId, readOnly: true),
+            BookEditorPage(
+              key: GlobalKey(),
+              bookId: currentBookId,
+              readOnly: true,
+            ),
           ]
           // Regular users
           else ...[
@@ -83,7 +87,7 @@ class AppRouterDelegate extends RouterDelegate<AppLink> with ChangeNotifier {
             else ...[
               BooksHomePage(),
               if (currentBookId != null) ...[
-                BookEditorPage(bookId: currentBookId),
+                BookEditorPage(key: GlobalKey(), bookId: currentBookId),
               ]
             ],
           ]
@@ -150,7 +154,9 @@ class AppRouterDelegate extends RouterDelegate<AppLink> with ChangeNotifier {
         if (newLink.pageId != null) {
           // Check if the pageId can be found
           page = await firebase.getPage(
-              bookId: newLink.bookId, pageId: newLink.pageId);
+            bookId: newLink.bookId,
+            pageId: newLink.pageId,
+          );
         }
         // Otherwise, load the first page in the book using the pageOrder value
         else if (book.pageOrder.isNotEmpty) {

@@ -6,7 +6,7 @@ import 'package:cannlytics_app/data/book_data.dart';
 class BooksModel extends EasyNotifier {
   /// //////////////////////////////////////
   /// All books
-  List<ScrapBookData> _books;
+  List<ScrapBookData> _books = <ScrapBookData>[];
   List<ScrapBookData> get books => _books;
   set books(List<ScrapBookData> value) {
     value.removeWhere((element) => StringUtils.isEmpty(element.documentId));
@@ -19,7 +19,7 @@ class BooksModel extends EasyNotifier {
         if (books == null) return;
         books = List.from(books)
           ..removeWhere((b) => b.documentId == documentId);
-        if (documentId == currentBookId) currentBook = null;
+        if (documentId == currentBookId) currentBook = ScrapBookData();
       });
 
   void replaceBook(ScrapBookData value) {
@@ -36,20 +36,20 @@ class BooksModel extends EasyNotifier {
 
   /// //////////////////////////////////////
   /// Current book
-  ScrapBookData _currentBook;
-  List<ScrapPageData> _currentBookPages;
-  List<ScrapItem> _currentBookScraps;
+  ScrapBookData _currentBook = ScrapBookData();
+  List<ScrapPageData> _currentBookPages = <ScrapPageData>[];
+  List<ScrapItem> _currentBookScraps = <ScrapItem>[];
   ScrapBookData get currentBook => _currentBook;
   set currentBook(ScrapBookData value) {
     notify(() => _currentBook = value);
     if (value == null) {
-      currentPage = null;
-      currentBookPages = null;
-      currentBookScraps = null;
+      currentPage = ScrapPageData();
+      currentBookPages = <ScrapPageData>[];
+      currentBookScraps = <ScrapItem>[];
     }
   }
 
-  String get currentBookId => currentBook?.documentId;
+  String get currentBookId => currentBook?.documentId ?? '';
 
   List<ScrapPageData> get currentBookPages => _currentBookPages;
   set currentBookPages(List<ScrapPageData> value) {
@@ -65,7 +65,7 @@ class BooksModel extends EasyNotifier {
         currentBookPages = List.from(currentBookPages)
           ..removeWhere((p) => p.documentId == documentId);
         if (currentPageId == documentId) {
-          currentPage = null;
+          currentPage = ScrapPageData();
         }
       });
 
@@ -102,17 +102,17 @@ class BooksModel extends EasyNotifier {
 
   /// //////////////////////////////////////
   /// Current page
-  ScrapPageData _currentPage;
-  List<PlacedScrapItem> _currentPageScraps;
+  ScrapPageData _currentPage = ScrapPageData();
+  List<PlacedScrapItem> _currentPageScraps = <PlacedScrapItem>[];
   ScrapPageData get currentPage => _currentPage;
   set currentPage(ScrapPageData value) {
     if (value == null) {
-      currentPageScraps = null;
+      currentPageScraps = <PlacedScrapItem>[];
     }
     notify(() => _currentPage = value);
   }
 
-  String get currentPageId => currentPage?.documentId;
+  String get currentPageId => currentPage?.documentId ?? '';
 
   List<PlacedScrapItem> get currentPageScraps => _currentPageScraps;
   set currentPageScraps(List<PlacedScrapItem> value) =>
@@ -136,5 +136,5 @@ class BooksModel extends EasyNotifier {
       ..removeWhere((s) => s.documentId == documentId);
   }
 
-  void reset() => currentBook = null;
+  void reset() => currentBook = ScrapBookData();
 }

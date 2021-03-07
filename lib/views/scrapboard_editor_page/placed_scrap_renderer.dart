@@ -50,6 +50,7 @@ class PlacedScrapRenderer extends StatelessWidget {
     }
 
     return ScrapKeyboardShortcutsListener(
+      key: GlobalKey<ScaffoldState>(),
       item: item,
       enableKeyListener: isSelected,
       child: ContextMenuRegion(

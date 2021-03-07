@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class SingleEmojiPaint extends StatelessWidget {
-  const SingleEmojiPaint(this.emoji, {Key key}) : super(key: key);
+  const SingleEmojiPaint(this.emoji, {required Key key}) : super(key: key);
   final String emoji;
 
   @override
@@ -34,7 +34,10 @@ class _EmojiPainter extends CustomPainter {
           color: Colors.black,
         ),
         text: emoji ?? "😀");
-    TextPainter tp = new TextPainter(text: span, textAlign: TextAlign.left, textDirection: TextDirection.ltr);
+    TextPainter tp = new TextPainter(
+        text: span,
+        textAlign: TextAlign.left,
+        textDirection: TextDirection.ltr);
     tp.layout();
     tp.paint(canvas, Offset(size.width * offsetX, size.height * offsetY));
   }

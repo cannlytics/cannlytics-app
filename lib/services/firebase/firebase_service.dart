@@ -49,7 +49,7 @@ abstract class FirebaseService {
   /// //////////////////////////////////////////////////
 
   // shared setUserId method
-  String _userId;
+  String _userId = '';
   String get userId => _userId;
   set userId(String value) => _userId = value;
   List<String> get userPath => [FireIds.users, userId];
@@ -68,8 +68,8 @@ abstract class FirebaseService {
     return data.map((e) => ScrapBookData.fromJson(e)).toList();
   }
 
-  Future<ScrapBookData> getBook({required String bookId}) async {
-    Map<String, dynamic> data = await getDoc([FireIds.books, bookId]);
+  Future<ScrapBookData?> getBook({required String bookId}) async {
+    Map<String?, dynamic> data = await getDoc([FireIds.books, bookId]);
     return data == null ? null : ScrapBookData.fromJson(data);
   }
 
@@ -256,7 +256,7 @@ abstract class FirebaseService {
   bool get isSignedIn;
   @mustCallSuper
   Future<void> signOut() async {
-    userId = null;
+    userId = '';
   }
 
   Stream<Map<String, dynamic>> getDocStream(List<String> keys);

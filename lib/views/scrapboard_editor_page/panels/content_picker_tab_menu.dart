@@ -14,9 +14,11 @@ import 'content_picker_emoji_panel.dart';
 import 'content_picker_scraps_panel.dart';
 
 class ContentPickerMenuPanel extends StatefulWidget {
-  const ContentPickerMenuPanel(
-      {Key key, required this.pageId, required this.bookId})
-      : super(key: key);
+  const ContentPickerMenuPanel({
+    required Key key,
+    required this.pageId,
+    required this.bookId,
+  }) : super(key: key);
   final String bookId;
   final String pageId;
 
@@ -45,34 +47,41 @@ class _ContentPickerMenuPanelState extends State<ContentPickerMenuPanel> {
           ],
 
           /// A row that has the Tab Menu on the right side, and the ContentPicker to the left
-          AlignAndPad(Alignment.centerRight, EdgeInsets.all(Insets.offset),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  /// Current content picker (if any)
-                  Stack(children: [
-                    ContentPickerScrapsPanel(
-                      bookId: widget.bookId,
-                      pageId: widget.pageId,
-                      isVisible: _currentMenuType == ContentType.Photo,
-                    ),
-                    //if (_currentMenuType == ContentType.Text) ContentPickerTextsPanel(),
-                    ContentPickerEmojiPanel(
-                      bookId: widget.bookId,
-                      pageId: widget.pageId,
-                      isVisible: _currentMenuType == ContentType.Emoji,
-                    ),
-                  ]),
-                  HSpace.lg,
-
-                  /// Tab Menu
-                  _ContentPickerTabMenu(
-                    contentType: _currentMenuType,
-                    onPressed: _handleMenuPressed,
-                    isPageSelected: StringUtils.isNotEmpty(widget.pageId),
+          AlignAndPad(
+            Alignment.centerRight,
+            EdgeInsets.all(Insets.offset),
+            key: GlobalKey(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                /// Current content picker (if any)
+                Stack(children: [
+                  ContentPickerScrapsPanel(
+                    key: GlobalKey(),
+                    bookId: widget.bookId,
+                    pageId: widget.pageId,
+                    isVisible: _currentMenuType == ContentType.Photo,
                   ),
-                ],
-              )),
+                  //if (_currentMenuType == ContentType.Text) ContentPickerTextsPanel(),
+                  ContentPickerEmojiPanel(
+                    key: GlobalKey(),
+                    bookId: widget.bookId,
+                    pageId: widget.pageId,
+                    isVisible: _currentMenuType == ContentType.Emoji,
+                  ),
+                ]),
+                HSpace.lg,
+
+                /// Tab Menu
+                _ContentPickerTabMenu(
+                  key: GlobalKey(),
+                  contentType: _currentMenuType,
+                  onPressed: _handleMenuPressed,
+                  isPageSelected: StringUtils.isNotEmpty(widget.pageId),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -109,7 +118,8 @@ class _ContentPickerMenuPanelState extends State<ContentPickerMenuPanel> {
 }
 
 class AlignAndPad extends StatelessWidget {
-  const AlignAndPad(this.alignment, this.padding, {Key key, this.child})
+  const AlignAndPad(this.alignment, this.padding,
+      {required Key key, required this.child})
       : super(key: key);
   final Alignment alignment;
   final EdgeInsets padding;
@@ -121,12 +131,12 @@ class AlignAndPad extends StatelessWidget {
 }
 
 class _ContentPickerTabMenu extends StatelessWidget {
-  const _ContentPickerTabMenu(
-      {Key key,
-      required this.contentType,
-      required this.onPressed,
-      this.isPageSelected = false})
-      : super(key: key);
+  const _ContentPickerTabMenu({
+    required Key key,
+    required this.contentType,
+    required this.onPressed,
+    this.isPageSelected = false,
+  }) : super(key: key);
   final ContentType contentType;
   final bool isPageSelected;
   final void Function(ContentType type) onPressed;
@@ -140,23 +150,26 @@ class _ContentPickerTabMenu extends StatelessWidget {
               horizontal: Insets.med - 1, vertical: Insets.lg * 1.1),
           child: Column(children: [
             _TabMenuBtn(
+              key: GlobalKey(),
               icon: AppIcons.scraps,
               isSelected: contentType == ContentType.Photo,
               onPressed: () => onPressed(ContentType.Photo),
             ),
             VSpace.med,
             _TabMenuBtn(
+              key: GlobalKey(),
               icon: AppIcons.text,
               isSelected: contentType == ContentType.Text,
               onPressed:
-                  isPageSelected ? () => onPressed(ContentType.Text) : null,
+                  isPageSelected ? () => onPressed(ContentType.Text) : () {},
             ),
             VSpace.med,
             _TabMenuBtn(
+              key: GlobalKey(),
               icon: AppIcons.emoji,
               isSelected: contentType == ContentType.Emoji,
               onPressed:
-                  isPageSelected ? () => onPressed(ContentType.Emoji) : null,
+                  isPageSelected ? () => onPressed(ContentType.Emoji) : () {},
             ),
           ]),
         ),
@@ -166,9 +179,12 @@ class _ContentPickerTabMenu extends StatelessWidget {
 }
 
 class _TabMenuBtn extends StatelessWidget {
-  const _TabMenuBtn(
-      {Key key, this.icon, this.onPressed, this.isSelected = false})
-      : super(key: key);
+  const _TabMenuBtn({
+    required Key key,
+    required this.icon,
+    required this.onPressed,
+    this.isSelected = false,
+  }) : super(key: key);
   final AppIcons icon;
   final VoidCallback onPressed;
   final bool isSelected;

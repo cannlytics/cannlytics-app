@@ -14,7 +14,7 @@ import 'package:cannlytics_app/views/scrapboard_editor_page/scrapboard/scrap_dat
 // Provides basic support for translation, selection and scale events
 class MovableScrap<T> extends StatefulWidget {
   const MovableScrap({
-    Key key,
+    required Key key,
     required this.data,
     required this.child,
     required this.onMoved,
@@ -23,9 +23,9 @@ class MovableScrap<T> extends StatefulWidget {
     required this.onRotateDragged,
     required this.onCornerDragComplete,
     required this.onZoomed,
-    this.onPressed,
-    this.onOutTweenComplete,
-    this.onMouseOverChanged,
+    required this.onPressed,
+    required this.onOutTweenComplete,
+    required this.onMouseOverChanged,
     this.isSelected = false,
     this.showControls = false,
   }) : super(key: key);
@@ -50,7 +50,7 @@ class MovableScrap<T> extends StatefulWidget {
 class MovableScrapState extends State<MovableScrap> {
   final GlobalKey<MovableScrapSelectionBoxState> _uiKey = GlobalKey();
 
-  Offset _lastPanPos;
+  Offset _lastPanPos = Offset(0, 0);
   //double get scale => widget.data.scale;
   Offset get offset => widget.data.offset;
   double get width => widget.data.size.width;
@@ -79,11 +79,17 @@ class MovableScrapState extends State<MovableScrap> {
                   onRotateDrag: (value) =>
                       widget.onRotateDragged(widget.data, value),
                   onDragEnded: () => widget.onCornerDragComplete(widget.data),
+                  onDeletePressed: () {},
                   isVisible: widget.showControls,
                   child: Padding(
                     padding: EdgeInsets.all(3 + btnSize),
                     // Rotate the box content according to .rot setting
-                    child: _DraggableHitArea(this, child: widget.child),
+                    child: _DraggableHitArea(
+                      this,
+                      key: GlobalKey<ScaffoldState>(),
+                      child: widget.child,
+                      isEnabled: true,
+                    ),
                   ),
                   btnSize: btnSize,
                   showControls: widget.showControls,
@@ -99,7 +105,7 @@ class MovableScrapState extends State<MovableScrap> {
   void _handleTapUp() {
     // Send move complete if we were moved
     if (_lastPanPos != null) {
-      _lastPanPos = null;
+      _lastPanPos = Offset(0, 0);
       widget.onMoveComplete?.call(widget.data);
     } else {
       widget.onPressed?.call(widget.data);
@@ -117,8 +123,12 @@ class MovableScrapState extends State<MovableScrap> {
 }
 
 class _DraggableHitArea extends StatelessWidget {
-  const _DraggableHitArea(this.state, {Key key, this.child, this.isEnabled})
-      : super(key: key);
+  const _DraggableHitArea(
+    this.state, {
+    required Key key,
+    required this.child,
+    required this.isEnabled,
+  }) : super(key: key);
   final MovableScrapState state;
   final Widget child;
   final bool isEnabled;

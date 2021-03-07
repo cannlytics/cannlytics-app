@@ -8,8 +8,11 @@ import 'package:cannlytics_app/models/books_model.dart';
 import 'package:cannlytics_app/views/scrapboard_editor_page/draggable_page_menu/draggable_page_menu.dart';
 
 class DraggablePageMenuPanel extends StatefulWidget {
-  const DraggablePageMenuPanel(this.pages, {Key key, required this.height})
-      : super(key: key);
+  const DraggablePageMenuPanel(
+    this.pages, {
+    required Key key,
+    required this.height,
+  }) : super(key: key);
   final List<ScrapPageData> pages;
   final double height;
 
@@ -18,7 +21,7 @@ class DraggablePageMenuPanel extends StatefulWidget {
 }
 
 class _DraggablePageMenuPanelState extends State<DraggablePageMenuPanel> {
-  ScrapBookData _book;
+  ScrapBookData _book = ScrapBookData();
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +31,11 @@ class _DraggablePageMenuPanelState extends State<DraggablePageMenuPanel> {
 
     /// Build
     List<ScrapPageData> list =
-        DataUtils.sortListById((widget.pages ?? []), _book?.pageOrder);
+        DataUtils.sortListById((widget.pages ?? []), _book.pageOrder);
     return CollapsingCard(
       title: "Pages",
-      titleClosed: page?.title,
-      icon: _RoundedBtn(onPressed: _handleAddPressed),
+      titleClosed: page.title,
+      icon: _RoundedBtn(key: GlobalKey(), onPressed: _handleAddPressed),
       height: widget.height,
       child: Stack(
         fit: StackFit.expand,
@@ -58,7 +61,8 @@ class _DraggablePageMenuPanelState extends State<DraggablePageMenuPanel> {
 }
 
 class _RoundedBtn extends StatelessWidget {
-  const _RoundedBtn({Key key, this.onPressed}) : super(key: key);
+  const _RoundedBtn({required Key key, required this.onPressed})
+      : super(key: key);
   final VoidCallback onPressed;
 
   @override
@@ -66,17 +70,18 @@ class _RoundedBtn extends StatelessWidget {
     AppTheme theme = context.watch();
     //TODO: Can this be served by an existing btn preset? If not, consider creating one?
     return SimpleBtn(
-        onPressed: onPressed,
+      onPressed: onPressed,
+      child: Container(
+        padding: EdgeInsets.all(6),
+        width: 40,
+        height: 40,
         child: Container(
-          padding: EdgeInsets.all(6),
-          width: 40,
-          height: 40,
-          child: Container(
-              decoration: BoxDecoration(
-                color: theme.accent1,
-                borderRadius: BorderRadius.circular(99),
-              ),
-              child: MaterialIcon(Icons.add, color: theme.bg1, size: 16)),
-        ));
+            decoration: BoxDecoration(
+              color: theme.accent1,
+              borderRadius: BorderRadius.circular(99),
+            ),
+            child: MaterialIcon(Icons.add, color: theme.bg1, size: 16)),
+      ),
+    );
   }
 }

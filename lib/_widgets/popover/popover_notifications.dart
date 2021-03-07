@@ -15,7 +15,7 @@ class ShowPopOverNotification extends Notification {
     this.useBarrier = true,
     this.barrierColor = Colors.transparent,
     this.dismissOnBarrierClick = true,
-    this.onContextHandled,
+    required this.onContextHandled,
   });
   final BuildContext context;
   final LayerLink link;

@@ -11,12 +11,12 @@ import 'package:cannlytics_app/data/book_data.dart';
 import 'package:cannlytics_app/styled_widgets/emoji.dart';
 
 class ContentPickerEmojiPanel extends StatefulWidget {
-  const ContentPickerEmojiPanel(
-      {Key key,
-      required this.isVisible,
-      required this.bookId,
-      required this.pageId})
-      : super(key: key);
+  const ContentPickerEmojiPanel({
+    required Key key,
+    required this.isVisible,
+    required this.bookId,
+    required this.pageId,
+  }) : super(key: key);
   final bool isVisible;
   final String pageId;
   final String bookId;
@@ -77,13 +77,13 @@ class _ContentPickerEmojiPanelState extends State<ContentPickerEmojiPanel> {
             itemBuilder: (_, index) {
               Emojis e = emojis.elementAt(index);
               return SimpleBtn(
-                  onPressed: isPageSelected ? () => _handleAddPressed(e) : null,
+                  onPressed:
+                      isPageSelected ? () => _handleAddPressed(e) : () {},
                   child: Container(
                       padding: EdgeInsets.all(Insets.sm),
                       alignment: Alignment.center,
                       child: Emoji(e)));
             },
-
             //child: Text(emojis, style: TextStyle(fontSize: 32))
           ),
         ),

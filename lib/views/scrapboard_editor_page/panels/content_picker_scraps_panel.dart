@@ -12,7 +12,7 @@ import 'package:cannlytics_app/views/scrap_pile_picker/scrap_pile_picker.dart';
 
 class ContentPickerScrapsPanel extends StatefulWidget {
   const ContentPickerScrapsPanel(
-      {Key key,
+      {required Key key,
       required this.bookId,
       this.isVisible = false,
       required this.pageId})
@@ -57,7 +57,7 @@ class _ContentPickerScrapsPanelState extends State<ContentPickerScrapsPanel>
                     ],
                     contextMenuActions: (ScrapItem scrap) => [
                       () => _handleDeletePressed(scrap),
-                      isPageSelected ? () => _handleAddPressed(scrap) : null,
+                      isPageSelected ? () => _handleAddPressed(scrap) : () {},
                     ],
                   ),
                 ),
@@ -69,8 +69,9 @@ class _ContentPickerScrapsPanelState extends State<ContentPickerScrapsPanel>
                     curve: Curves.easeOut,
                     padding: EdgeInsets.all(touchMode ? Insets.med : Insets.lg),
                     child: _PanelBottomBar(
+                      key: GlobalKey<ScaffoldState>(),
                       selectionCount: _selectedItems.length,
-                      onAddPressed: isPageSelected ? _handleAddPressed : null,
+                      onAddPressed: isPageSelected ? _handleAddPressed : () {},
                       onDeletePressed: _handleDeletePressed,
                     ),
                   ),
@@ -93,7 +94,7 @@ class _ContentPickerScrapsPanelState extends State<ContentPickerScrapsPanel>
     if (widget.isVisible) {
       bool deletePressed = value.logicalKey == LogicalKeyboardKey.delete ||
           value.logicalKey == LogicalKeyboardKey.backspace;
-      if (deletePressed) _handleDeletePressed(null);
+      if (deletePressed) _handleDeletePressed(ScrapItem());
     }
   }
 
@@ -121,12 +122,12 @@ class _ContentPickerScrapsPanelState extends State<ContentPickerScrapsPanel>
 }
 
 class _PanelBottomBar extends StatelessWidget {
-  const _PanelBottomBar(
-      {Key key,
-      this.onAddPressed,
-      this.onDeletePressed,
-      required this.selectionCount})
-      : super(key: key);
+  const _PanelBottomBar({
+    required Key key,
+    required this.onAddPressed,
+    required this.onDeletePressed,
+    required this.selectionCount,
+  }) : super(key: key);
   final VoidCallback onAddPressed;
   final VoidCallback onDeletePressed;
   final int selectionCount;
@@ -142,10 +143,12 @@ class _PanelBottomBar extends StatelessWidget {
               Text("$selectionCount items selected", style: TextStyles.body3)),
       Spacer(),
       SecondaryBtn(
-          onPressed: hasSelection ? onDeletePressed : null, label: "DELETE"),
+        onPressed: hasSelection ? onDeletePressed : () {},
+        label: 'Delete',
+      ),
       HSpace.med,
       PrimaryBtn(
-          onPressed: hasSelection ? onAddPressed : null, label: "ADD TO PAGE"),
+          onPressed: hasSelection ? onAddPressed : () {}, label: 'Add to page'),
     ]);
   }
 }

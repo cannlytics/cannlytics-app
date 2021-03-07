@@ -11,7 +11,8 @@ import 'popover_notifications.dart';
 /// Context listens for Notifications, and inserts/removes layers from the Overlay stack in response.
 /// The context wraps the content in a
 class PopOverController extends StatefulWidget {
-  const PopOverController({Key key, this.child}) : super(key: key);
+  const PopOverController({required Key key, required this.child})
+      : super(key: key);
   final Widget child;
 
   @override
@@ -19,8 +20,8 @@ class PopOverController extends StatefulWidget {
 }
 
 class PopOverControllerState extends State<PopOverController> {
-  OverlayEntry barrierOverlay;
-  OverlayEntry mainContentOverlay;
+  late OverlayEntry barrierOverlay;
+  late OverlayEntry mainContentOverlay;
   ValueNotifier<Size> _sizeNotifier = ValueNotifier(Size.zero);
 
   @override
@@ -34,7 +35,7 @@ class PopOverControllerState extends State<PopOverController> {
   bool get isBarrierOpen => barrierOverlay != null;
 
   void _closeOverlay() {
-    _sizeNotifier?.value = null;
+    _sizeNotifier?.value = Size(0, 0);
     barrierOverlay?.remove();
     mainContentOverlay?.remove();
     barrierOverlay = mainContentOverlay = null;
@@ -99,6 +100,7 @@ class PopOverControllerState extends State<PopOverController> {
                         opacity: size != Size.zero ? 1 : 0,
                         // Wrap content in a MeasureSize which sends us it's size via callback.
                         child: MeasureSize(
+                            key: GlobalKey(),
                             onChange: _handlePopOverSized,
                             child: FocusScope(child: n.popChild)),
                       ),
@@ -130,13 +132,16 @@ class MeasureSizeRenderObject extends RenderProxyBox {
     Size newSize = child.size;
     if (_prevSize == newSize) return;
     _prevSize = newSize;
-    WidgetsBinding.instance.addPostFrameCallback((_) => onChange(newSize));
+    WidgetsBinding.instance?.addPostFrameCallback((_) => onChange(newSize));
   }
 }
 
 class MeasureSize extends SingleChildRenderObjectWidget {
-  const MeasureSize({Key key, required this.onChange, required Widget child})
-      : super(key: key, child: child);
+  const MeasureSize({
+    required Key key,
+    required this.onChange,
+    required Widget child,
+  }) : super(key: key, child: child);
   final void Function(Size size) onChange;
   @override
   RenderObject createRenderObject(BuildContext context) =>

@@ -20,16 +20,16 @@ class Scrapboard<T> extends StatefulWidget {
       {Key key = const Key('test'),
       required this.boxes,
       required this.itemBuilder,
-      this.onTranslated,
-      this.onTranslateEnded,
-      this.onBoxDeleted,
-      this.onOrderChanged,
-      this.idBuilder,
-      this.lockAspectForItem,
-      this.startOffset,
+      required this.onTranslated,
+      required this.onTranslateEnded,
+      required this.onBoxDeleted,
+      required this.onOrderChanged,
+      required this.idBuilder,
+      required this.lockAspectForItem,
+      required this.startOffset,
       this.readOnly = false,
-      this.onSelectionChanged,
-      this.itemControlsBuilder})
+      required this.onSelectionChanged,
+      required this.itemControlsBuilder})
       : super(key: key);
 
   final List<ScrapData<T>> boxes;
@@ -156,7 +156,7 @@ class ScrapboardState<T> extends State<Scrapboard<T>>
                     }).toList(),
 
                     if (showItemControls) ...[
-                      widget.itemControlsBuilder?.call(_selected.first?.data),
+                      widget.itemControlsBuilder.call(_selected.first.data),
                     ],
 
                     /// Use a transparent layer to block any interaction when we're in read-only mode

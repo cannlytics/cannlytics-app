@@ -15,11 +15,12 @@ class CloseContextMenuNotification extends Notification {}
 // Helper widget, to dispatch Notifications when a right-click is detected on some child
 class ContextMenuRegion extends StatelessWidget {
   const ContextMenuRegion(
-      {Key key,
+      {required Key key,
       required this.child,
       required this.contextMenu,
       this.isEnabled = true})
       : super(key: key);
+
   final Widget child;
   final Widget contextMenu;
   final bool isEnabled;
@@ -40,7 +41,10 @@ class ContextMenuRegion extends StatelessWidget {
 
 // The main overlay class, holds a Stack which contains the main app, contextMenu and contextModal
 class ContextMenuOverlay extends StatefulWidget {
-  const ContextMenuOverlay({Key key, this.child}) : super(key: key);
+  const ContextMenuOverlay({
+    required Key key,
+    required this.child,
+  }) : super(key: key);
   final Widget child;
   @override
   _ContextMenuOverlayState createState() => _ContextMenuOverlayState();
@@ -50,7 +54,7 @@ class _ContextMenuOverlayState extends State<ContextMenuOverlay> {
   Widget _currentMenu;
   Size _menuSize = Size.zero;
   Offset _mousePos = Offset.zero;
-  Size _prevSize;
+  Size _prevSize = Size(0, 0);
 
   void closeCurrent() => setState(() => _currentMenu = null);
 
@@ -143,8 +147,12 @@ class _MeasureSizeRenderObject extends RenderProxyBox {
 }
 
 class _MeasureSize extends SingleChildRenderObjectWidget {
-  const _MeasureSize({Key key, required this.onChange, required Widget child})
-      : super(key: key, child: child);
+  const _MeasureSize({
+    required Key key,
+    required this.onChange,
+    required Widget child,
+  }) : super(key: key, child: child);
+
   final void Function(Size size) onChange;
   @override
   RenderObject createRenderObject(BuildContext context) =>

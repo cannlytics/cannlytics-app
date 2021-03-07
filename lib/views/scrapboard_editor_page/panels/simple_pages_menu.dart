@@ -7,7 +7,7 @@ import 'package:cannlytics_app/data/book_data.dart';
 import 'package:cannlytics_app/models/app_model.dart';
 
 class SimplePagesMenu extends StatelessWidget {
-  SimplePagesMenu(this.pages, {this.selectedPageId});
+  SimplePagesMenu(this.pages, {required this.selectedPageId});
 
   final String selectedPageId;
   final List<ScrapPageData> pages;
@@ -45,7 +45,8 @@ class SimplePagesMenu extends StatelessWidget {
 }
 
 class _PageBtn extends StatelessWidget {
-  _PageBtn({required this.label, this.isSelected = false, this.onPressed});
+  _PageBtn(
+      {required this.label, this.isSelected = false, required this.onPressed});
 
   final String label;
   final bool isSelected;

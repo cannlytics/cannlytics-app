@@ -6,8 +6,11 @@ import 'package:cannlytics_app/data/book_data.dart';
 import 'package:cannlytics_app/models/books_model.dart';
 
 class EditorPanelInfo extends StatefulWidget {
-  const EditorPanelInfo({Key key, required this.width, required this.height})
-      : super(key: key);
+  const EditorPanelInfo({
+    required Key key,
+    required this.width,
+    required this.height,
+  }) : super(key: key);
   final double width;
   final double height;
 
@@ -16,14 +19,14 @@ class EditorPanelInfo extends StatefulWidget {
 }
 
 class _EditorPanelInfoState extends State<EditorPanelInfo> {
-  ScrapBookData _book;
+  ScrapBookData _book = ScrapBookData();
   @override
   Widget build(BuildContext context) {
     AppTheme theme = context.watch();
     _book = context.select((BooksModel m) => m.currentBook) ?? _book;
     return CollapsingCard(
       height: widget.height,
-      title: "Folio Information",
+      title: "Information",
       titleClosed: _book.title,
       icon: IconBtn(Icons.share,
           padding: EdgeInsets.all(Insets.sm),
@@ -65,6 +68,7 @@ class _EditorPanelInfoState extends State<EditorPanelInfo> {
 
   void _handleTitleChanged(String value) =>
       UpdateBookCommand().run(_book.copyWith(title: value));
+
   void _handleDescChanged(String value) =>
       UpdateBookCommand().run(_book.copyWith(desc: value));
 

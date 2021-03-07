@@ -8,7 +8,7 @@ import 'package:cannlytics_app/models/app_model.dart';
 import 'package:provider/provider.dart';
 
 class BtnColors {
-  BtnColors({required this.bg, required this.fg, this.outline});
+  BtnColors({required this.bg, required this.fg, required this.outline});
   final Color bg;
   final Color fg;
   final Color outline;
@@ -21,16 +21,16 @@ enum BtnTheme { Primary, Secondary, Raw }
 // It takes care of adding a visual indicator  when the btn is Focused.
 class RawBtn extends StatefulWidget {
   const RawBtn(
-      {Key key,
+      {required Key key,
       required this.child,
-      this.normalColors,
-      this.hoverColors,
+      required this.normalColors,
+      required this.hoverColors,
       required this.onPressed,
-      this.padding,
-      this.focusMargin,
-      this.enableShadow,
-      this.enableFocus,
-      this.cornerRadius})
+      required this.padding,
+      required this.focusMargin,
+      required this.enableShadow,
+      required this.enableFocus,
+      required this.cornerRadius})
       : super(key: key);
   final Widget child;
   final BtnColors normalColors;
@@ -80,9 +80,17 @@ class _RawBtnState extends State<RawBtn> {
     List<BoxShadow> shadows =
         (widget.enableShadow ?? true) ? Shadows.universal : [];
     BtnColors normalColors = widget.normalColors ??
-        BtnColors(fg: theme.greyMedium, bg: Colors.transparent);
+        BtnColors(
+          fg: theme.greyMedium,
+          bg: Colors.transparent,
+          outline: Colors.transparent,
+        );
     BtnColors hoverColors = widget.hoverColors ??
-        BtnColors(fg: theme.focus, bg: theme.focus.withOpacity(.1));
+        BtnColors(
+          fg: theme.focus,
+          bg: theme.focus.withOpacity(.1),
+          outline: Colors.transparent,
+        );
     double focusMargin = widget.focusMargin ?? -5;
     return AnimatedOpacity(
       duration: Times.fast,
@@ -122,8 +130,9 @@ class _RawBtnState extends State<RawBtn> {
                     normal: normalColors.bg, hover: hoverColors.bg),
               ),
               child: Padding(
-                  padding: widget.padding ?? EdgeInsets.zero,
-                  child: widget.child),
+                padding: widget.padding ?? EdgeInsets.zero,
+                child: widget.child,
+              ),
             ),
           ),
 
@@ -133,9 +142,10 @@ class _RawBtnState extends State<RawBtn> {
               // Use negative margin for the focus state, so it lands outside our buttons actual footprint and doesn't mess up our alignments/paddings.
               all: focusMargin,
               child: RoundedBorder(
-                  radius:
-                      widget.cornerRadius ?? (Corners.med - (focusMargin * .6)),
-                  color: theme.focus),
+                radius:
+                    widget.cornerRadius ?? (Corners.med - (focusMargin * .6)),
+                color: theme.focus,
+              ),
             )
           ],
         ],
@@ -148,13 +158,13 @@ class _RawBtnState extends State<RawBtn> {
 // Accepts label, icon and child, with child taking precedence.
 class BtnContent extends StatelessWidget {
   const BtnContent(
-      {Key key,
-      this.label,
-      this.icon,
-      this.child,
+      {required Key key,
+      required this.label,
+      required this.icon,
+      required this.child,
       this.leadingIcon = false,
       this.isCompact = false,
-      this.labelStyle})
+      required this.labelStyle})
       : super(key: key);
   final Widget child;
   final String label;

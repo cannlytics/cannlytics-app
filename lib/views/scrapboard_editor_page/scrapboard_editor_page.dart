@@ -19,7 +19,8 @@ import 'panels/draggable_page_menu_panel.dart';
 import 'panels/simple_pages_menu.dart';
 
 class BookEditorPage extends StatefulWidget {
-  const BookEditorPage({Key key, required this.bookId, this.readOnly = false})
+  const BookEditorPage(
+      {required Key key, required this.bookId, this.readOnly = false})
       : super(key: key);
   final String bookId;
   final bool readOnly;
@@ -33,7 +34,8 @@ class _BookEditorPageState extends State<BookEditorPage> {
 
   @override
   Widget build(BuildContext context) {
-    String pageId = context.select((BooksModel m) => m.currentPage?.documentId);
+    String pageId =
+        context.select((BooksModel m) => m.currentPage.documentId) ?? '';
     List<ScrapPageData> pageList =
         context.select((BooksModel m) => m.currentBookPages);
     if (pageList == null) return LoadingIndicator();

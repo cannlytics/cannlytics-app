@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 // Relies on Tranform.translate() and SizedBox to move and size the Child
 class OpeningContainer extends StatefulWidget {
   OpeningContainer({
-    Key key,
+    required Key key,
     required this.onEnd,
     required this.child,
     required this.topLeftOffset,
