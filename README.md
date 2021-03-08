@@ -69,16 +69,20 @@ First, clone the repository.
 git clone https://github.com/cannlytics/cannlytics-app.git
 ```
 
-Next, get your Flutter dependencies.
+If you're new to Flutter, then you can follow the [Flutter setup instructions](https://flutter.dev/docs/get-started/install). Once you have Flutter setup, then you can use the default `stable` channel, or switch to the latest `dev` version to get the most current fixes for desktop/web:
+ * Run `flutter channel dev`
+ * Run `flutter upgrade`
 
-```bash
-flutter pub get
-```
+You will also need to setup building for your desired platform. If you've never run a desktop build before, then you will need to enable it with a one-time command for your current platform:
+* `flutter config --enable-macos-desktop`
+* `flutter config --enable-windows-desktop`
+* `flutter config --enable-linux-desktop`
 
 ## Architecture <a name="architecture"></a>
 
+The architecture of the Cannlytics app is as follows. In general, a model-view-controller (MVC) architecture is followed for user-interface code and business-logic components (BLoC) architecture is followed for the functional services that are used in the MVC user-interface code.
+
 ```bash
-.
 ├── assets
 │   └── images
 │       ├── icons
@@ -112,6 +116,7 @@ flutter pub get
 Helpful resources:
 
 - [Software Architecture Guide](https://martinfowler.com/architecture/)
+- [The MVC Architecture](https://www.tripled.io/08/11/2017/mvc-architecture/)
 
 ## Authentication <a name="authentication"></a>
 
@@ -123,8 +128,22 @@ The Cannlytics App began with [Flutter Folio](https://github.com/gskinnerTeam/fl
 
 You can run your app locally for development, adding tags as needed depending on your desired platform.
 
-```sh
-flutter run
+**Web**
+
+```bash
+flutter run -d chrome --no-sound-null-safety
+```
+
+**Windows**
+
+```bash
+flutter run -d windows --no-sound-null-safety
+```
+
+> On windows, you will need to enable developer mode.
+
+```bash
+start ms-settings:developers
 ```
 
 ## Testing <a name="testing"></a>
@@ -133,7 +152,17 @@ flutter run
 
 ## Publishing <a name="publishing"></a>
 
-[TODO: Determine the publishing process]
+You can build the app for the web.
+
+```bash
+flutter build web --no-sound-null-safety
+```
+
+You can then publish to the web.
+
+```bash
+firebase deploy --project cannlytics --only hosting:production
+```
 
 ## Resources <a name="resources"></a>
 

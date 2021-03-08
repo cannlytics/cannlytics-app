@@ -11,6 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # State management
+  get: 4.0.0-nullsafety.2
+
   animate_do: ^1.7.5
   # async: ^2.4.2
   auto_size_text:
@@ -31,11 +34,8 @@ dependencies:
   # freezed_annotation:
   lorem_ipsum: any
   multi_image_picker: ^4.7.14
-  # menubar:
-  #   git:
-  #     url: git://github.com/google/flutter-desktop-embedding.git
-  #     path: plugins/menubar
-  #     ref: 040f36c82b63e8764ec2fd97066767503a667b6d
+  menubar:
+    path: ./plugins/menubar
   path_provider: ^1.6.24
   xdg_directories: ^0.1.2
   provider: ^5.0.0
@@ -54,10 +54,8 @@ dependencies:
     path: ./plugins/window_size
 
   # Firebase
-  # firedart:
-  #         git:
-  #           url: git://github.com/cenomla/firedart.git
-  #           ref: f89b0d98929fd19b79f4fa05efb4a1c84a3562a9
+  firedart:
+    path: ./plugins/firedart
   firebase_core: ^0.7.0
   firebase_auth: ^0.20.1
   cloud_firestore: ^0.16.0
@@ -83,6 +81,10 @@ flutter:
     - assets/images/
     - assets/images/icons/
     - assets/images/emoji/
+    - assets/images/logos/logo.png
+    - assets/images/logos/logo-text.png
+    - assets/images/logos/logo-text-dark.png
+    - assets/images/auth/btn_google_signin_dark_normal_web@2x.png
 
   uses-material-design: true
 

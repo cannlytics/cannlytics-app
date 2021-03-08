@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="Free cannabis-analytics software made with love and ready for you to plug and play or pop the hood and tinker to your heart's content.">
+  <meta name="author" content="Keegan Skeate <contact@cannlytics.com>">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -30,16 +32,13 @@
     document.addEventListener('contextmenu', event => event.preventDefault());
   </script>
 
-  <!-- Firebase configuration.
-       Workaround for analytics, see Firebase issues on Web:
-       https://github.com/FirebaseExtended/flutterfire/issues/3409-->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-analytics.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-firestore.js"></script>
+  <script type="text/javascript" src="firebaseConfig.js"></script>
   <script>
-    // TODO: Add config with webpack?
-    var firebaseConfig = {};
     if (!firebase.analytics || !navigator.cookieEnabled) {
       firebase.analytics = function() {};
     }

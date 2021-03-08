@@ -2,54 +2,34 @@
   "hosting": [
     {
       "target": "dev",
-      "public": "public",
+      "public": "build/web",
       "ignore": [
         "firebase.json",
         "**/.*",
         "**/node_modules/**",
         "**/development/**"
       ],
+      "redirects": [
+        { "source" : "/html", "destination" : "/status", "type" : 301 }
+      ],
       "rewrites": [
-        {
-          "source": "**",
-          "run": {
-            "serviceId": "cannlytics-console",
-            "region": "us-central1"
-          }
-        }
+        { "source": "**", "destination": "/index.html"}
       ]
     },
     {
       "target": "production",
-      "public": "public",
+      "public": "build/web",
       "ignore": [
         "firebase.json",
         "**/.*",
         "**/node_modules/**",
         "**/development/**"
       ],
+      "redirects": [
+        { "source" : "/html", "destination" : "/status", "type" : 301 }
+      ],
       "rewrites": [
-        {
-          "source": "!/sitemap",
-          "run": {
-            "serviceId": "cannlytics-console",
-            "region": "us-central1"
-          }
-        },
-        {
-          "source": "!/static",
-          "run": {
-            "serviceId": "cannlytics-console",
-            "region": "us-central1"
-          }
-        },
-        {
-          "source": "**",
-          "run": {
-            "serviceId": "cannlytics-console",
-            "region": "us-central1"
-          }
-        }
+        { "source": "**", "destination": "/index.html"}
       ]
     }
   ]

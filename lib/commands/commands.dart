@@ -33,7 +33,7 @@ class BaseAppCommand {
   AppTheme get appTheme => getProvided();
 
   FirebaseService get firebase => getProvided();
-  CloudStorageService get cloudStorage => getProvided();
+  // CloudStorageService get cloudStorage => getProvided();
 
   AppModel get appModel => getProvided();
   BooksModel get booksModel => getProvided();

@@ -1,0 +1,40 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "cannlytics-app",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--no-sound-null-safety",
+            ],
+        },
+        {
+            "name": "auto_size_text",
+            "cwd": "plugins\\auto_size_text",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "firedart",
+            "cwd": "plugins\\firedart",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "menubar",
+            "cwd": "plugins\\menubar",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "window_size",
+            "cwd": "plugins\\window_size",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}
