@@ -1,212 +1,135 @@
-import 'package:cannlytics_app/data/app_user.dart';
-import 'package:flutter/foundation.dart';
+// Cannlytics App
+// Copyright (c) 2023 Cannlytics
+
+// Authors:
+//   Keegan Skeate <https://github.com/keeganskeate>
+// Created: 2/18/2023
+// Updated: 8/30/2023
+// License: MIT License <https://github.com/cannlytics/cannlytics/blob/main/LICENSE>
+
+// Dart imports:
+import 'dart:async';
+
+// Flutter imports:
 import 'package:flutter/material.dart';
-// import 'package:cannlytics_app/_spikes/auth_spike.dart';
-import 'package:cannlytics_app/commands/books/set_current_book_command.dart';
-import 'package:cannlytics_app/commands/books/set_current_page_command.dart';
-import 'package:cannlytics_app/core_packages.dart';
-import 'package:cannlytics_app/data/book_data.dart';
-import 'package:cannlytics_app/main_app_scaffold.dart';
-import 'package:cannlytics_app/models/app_model.dart';
-import 'package:cannlytics_app/models/books_model.dart';
-import 'package:cannlytics_app/routing/app_link.dart';
-import 'package:cannlytics_app/services/firebase/firebase_service.dart';
-import 'package:cannlytics_app/views/auth_page/auth_page.dart';
-import 'package:cannlytics_app/views/books_home/books_home_page.dart';
-import 'package:cannlytics_app/views/scrapboard_editor_page/scrapboard_editor_page.dart';
-import 'package:cannlytics_app/views/splash_page.dart';
 
-class AppRouterDelegate extends RouterDelegate<AppLink> with ChangeNotifier {
-  final AppModel appModel;
-  final BooksModel booksModel;
-  final FirebaseService firebase;
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-  AppRouterDelegate(this.appModel, this.booksModel, this.firebase) {
-    // Rebuild whenever any of our app state changes
-    // When notifyListeners is called, it tells the Router to rebuild the RouterDelegate
-    appModel.addListener(notifyListeners);
-    booksModel.addListener(notifyListeners);
-  }
+// Project imports:
+import 'package:cannlytics_data/routing/routes.dart';
+import 'package:cannlytics_data/services/auth_service.dart';
+import 'package:cannlytics_data/ui/general/not_found_screen.dart';
 
-  @override
-  void dispose() {
-    appModel.removeListener(notifyListeners);
-    booksModel.removeListener(notifyListeners);
-    super.dispose();
-  }
-
-  @override
-  // Return an AppLink, representing the current app state
-  AppLink get currentConfiguration => AppLink(user: '')
-    ..user = firebase.userId
-    ..bookId = booksModel.currentBookId
-    ..pageId = booksModel.currentPageId;
-
-  // Return a navigator, configured to match the current app state
-  Widget build(BuildContext context) {
-    safePrint("RouterDelegate.build()");
-    // Bind to the app state we care about
-    bool hasBootstrapped = appModel.hasBootstrapped;
-    bool hasSetInitialRoute = appModel.hasSetInitialRoute;
-    bool isGuestUser = appModel.isGuestUser;
-    bool isAuthenticated = appModel.isAuthenticated;
-    String? currentBookId = booksModel.currentBook.documentId;
-    // Hold splash in place until our bootstrap cmd and any route parsing is done.
-    bool showSplash = hasBootstrapped == false || hasSetInitialRoute == false;
-    // See if we want to show a dev spike instead of the main app
-    // Widget devSpike = _getDevSpike();
-    // Wrap
-    return MainAppScaffold(
-      key: GlobalKey<ScaffoldState>(),
-      showAppBar: showSplash == false,
-      child: Navigator(
-        onPopPage: _handleNavigatorPop,
-        pages: [
-          // Dev spike takes precedence
-          // if (devSpike != null) ...[
-          //   devSpike,
-          // ] else
-          if (showSplash) ...[
-            SplashPage(),
-          ]
-          // Guest users can only see the EditView in read-only mode
-          else if (isGuestUser) ...[
-            BookEditorPage(
-              key: GlobalKey(),
-              bookId: currentBookId,
-              readOnly: true,
-            ),
-          ]
-          // Regular users
-          else ...[
-            // Not logged in, show auth
-            if (isAuthenticated == false) ...[
-              AuthPage(),
-            ]
-            // Logged in, show HomePage + EditPage
-            else ...[
-              BooksHomePage(),
-              if (currentBookId != null) ...[
-                BookEditorPage(key: GlobalKey(), bookId: currentBookId),
-              ]
-            ],
-          ]
-        ].map(_wrapContentInPage).toList(),
-      ),
-    );
-  }
-
-  //TODO: Fix NoAnimationsPage, SB: NoAnimationPage was rebuilding constantly when resizing the app window, not sure why.
-  Page _wrapContentInPage(Widget e) {
-    //On mobile, use the Material/Cupertino transitions
-    // if (DeviceInfo.isMobile) {
-    return MaterialPage<void>(child: e);
-    // }
-    // // On desktop, use no-transition as is typical
-    // else {
-    //   return NoAnimationPage(child: e, key: ValueKey(e.runtimeType));
-    // }
-  }
-
-  //@override
-  // Call once at startup of the Router, on all platforms.
-  // This might hold a deeplink from the browser, or just an empty initial route "/'
-  // Sample deeplink: http://localhost:8080/#/?bk=-ePtxV2wZ&pg=QZdZ1ZCIb&uid=shawn@test.com&
-  Future<void> setInitialRoutePath(AppLink initialLink) async {
-    if (kReleaseMode == false) {
-      // Skip to some initial payload to test deeplinking
-      //initialLink = AppLink(user: "shawn@test.com", bookId: "-ePtxV2wZ", pageId: "QZdZ1ZCIb");
-    }
-    await setNewRoutePath(initialLink);
-    appModel.hasSetInitialRoute = true;
-    if (kDebugMode) safePrint("setInitialRoutePath complete");
-  }
-
-  @override
-  // The OS is asking us to change our location.
-  // If we choose, we can update the app state to match the request from the OS.
-  Future<void> setNewRoutePath(AppLink newLink) async {
-    safePrint("setNewRoutePath: ${newLink.toLocation()}");
-
-    // If we've been passed a .user that is not us, then logout, we'll enter guest mode for another user...
-    if (newLink.user != null && newLink.user != appModel.currentUserEmail) {
-      appModel.currentUser =
-          AppUser(email: '', fireId: ''); // Logout current user
-    }
-
-    // If we're not authenticated, see if there's a userId in the link we can use..
-    if (appModel.isAuthenticated == false) {
-      // If we have no userId, we can't verify any links, so just bail now.
-      if (newLink.user == null) return;
-      // Use the userId from the deep-link to grant us read-only access to this users docs
-      firebase.userId = newLink.user;
-    }
-
-    // Validate the ids that were passed in. At this point we're using either our existing authenticated user,
-    // Or the guest user provided by the app link. In either case, we need to call firebase and validate the ids.
-    ScrapBookData book = ScrapBookData();
-    ScrapPageData page = ScrapPageData();
-    if (newLink.bookId != null) {
-      // Check if the bookId can be found
-      book = await firebase.getBook(bookId: newLink.bookId);
-      if (book != null) {
-        // If the link has a pageId use that
-        if (newLink.pageId != null) {
-          // Check if the pageId can be found
-          page = await firebase.getPage(
-            bookId: newLink.bookId,
-            pageId: newLink.pageId,
-          );
-        }
-        // Otherwise, load the first page in the book using the pageOrder value
-        else if (book.pageOrder.isNotEmpty) {
-          page = await firebase.getPage(
-              bookId: book.documentId, pageId: book.pageOrder.first);
-        }
+// App navigation.
+final goRouterProvider = Provider<GoRouter>((ref) {
+  return GoRouter(
+    initialLocation: '/',
+    navigatorKey: GlobalKey<NavigatorState>(),
+    debugLogDiagnostics: true,
+    errorBuilder: (context, state) => const NotFoundScreen(),
+    refreshListenable:
+        GoRouterRefreshStream(ref.watch(authProvider).authStateChanges()),
+    routes: Routes.mainRoutes,
+    redirect: (BuildContext context, GoRouterState state) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      bool? isOldEnough = prefs.getBool('isOldEnough');
+      // DEV: If you need to reset the age verification, uncomment the following lines.
+      // SharedPreferences preferences = await SharedPreferences.getInstance();
+      // await preferences.clear();
+      if (state.uri.toString() == '/age-verification' && isOldEnough == true) {
+        return '/'; // Redirect to home if user is old enough and on age-verification screen.
+      } else if (isOldEnough == null || !isOldEnough) {
+        return '/age-verification'; // Redirect to age verification if user is not old enough.
+      } else {
+        return null; // No redirect.
       }
-    }
-    // This can load a new book, or if null, send us back to the home
-    SetCurrentBookCommand().run(book, setInitialPage: false);
-    SetCurrentPageCommand().run(page);
-  }
+    },
+  );
+});
 
-  //region BACK / POP Support
-  // Go back one level in our state if possible
-  bool tryGoBack() {
-    if (booksModel.currentBook != null) {
-      booksModel.currentBook = ScrapBookData();
-      return true; //true means we handled it
-    }
-    return false; //false lets the whole app go into background
-  }
+/// Custom `GoRoute` class to make route declaration easier.
+class AppRoute extends GoRoute {
+  // Route properties.
+  final String? name;
+  final String path;
+  final Widget Function(BuildContext, GoRouterState) builder;
+  final bool noTransition;
+  final bool useFade;
 
-  @override
-  // Handle OS level back event  (Android mainly)
-  Future<bool> popRoute() async => tryGoBack();
+  // Route initialization.
+  AppRoute({
+    required this.path,
+    required this.builder,
+    this.noTransition = false,
+    this.useFade = false,
+    this.name,
+    List<GoRoute> routes = const [],
+  }) : super(
+          path: path,
+          name: name,
+          routes: routes,
+          pageBuilder: (context, state) {
+            // Screen scaffold.
+            final pageContent = Title(
+              // TODO: Dynamic titles.
+              title: 'Cannlytics',
+              color: Colors.white,
+              child: Scaffold(
+                body: builder(context, state),
+                resizeToAvoidBottomInset: false,
+              ),
+            );
 
-  // Handle Navigator.pop for any routes in our stack
-  bool _handleNavigatorPop(Route<dynamic> route, dynamic result) {
-    // Ask the route if it can handle pop internally...
-    if (route.didPop(result)) {
-      // If not, we pop one level in our stack
-      return tryGoBack();
-    }
-    return false;
-  }
-  // endregion
+            // Fade transition screen.
+            if (useFade) {
+              return CustomTransitionPage(
+                key: state.pageKey,
+                child: pageContent,
+                transitionsBuilder: (
+                  context,
+                  animation,
+                  secondaryAnimation,
+                  child,
+                ) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
+                },
+              );
+            }
+
+            // No transition screen.
+            if (noTransition) {
+              return NoTransitionPage(
+                key: state.pageKey,
+                child: pageContent,
+              );
+            }
+
+            // Normal screen.
+            return MaterialPage(
+              key: state.pageKey,
+              child: pageContent,
+            );
+          },
+        );
 }
 
-// Widget _getDevSpike() {
-//   if (kReleaseMode) return null;
-//   //return NativeFirebaseAuthSpike();
-//   //return ModelCommandsSpike();
-//   //return RestApiSpikes();
-//   //return PopupPanelSpike();
-//   //return TabBugRepro();
-//   //return FiredartStreamSpike();
-//   //return ButtonSheet();
-//   //return DraggableMenuSpike();
-//   //return ContextMenuSpike();
-//   // ignore: dead_code
-//   return null;
-// }
+/// GoRouter stream (required logic for `go_router`, generally you can ignore).
+class GoRouterRefreshStream extends ChangeNotifier {
+  GoRouterRefreshStream(Stream<dynamic> stream) {
+    notifyListeners();
+    _subscription =
+        stream.asBroadcastStream().listen((dynamic _) => notifyListeners());
+  }
+  late final StreamSubscription<dynamic> _subscription;
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
+  }
+}

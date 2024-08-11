@@ -1,128 +1,81 @@
-import 'dart:async';
+// Cannlytics Data
+// Copyright (c) 2023 Cannlytics
+// Copyright (c) 2021 Coding With Flutter Limited
 
-import 'package:firebase_core/firebase_core.dart';
+// Authors:
+//   Keegan Skeate <https://github.com/keeganskeate>
+// Created: 2/17/2023
+// Updated: 6/24/2023
+// License: MIT License <https://github.com/cannlytics/cannlytics/blob/main/LICENSE>
+// License: MIT License <https://github.com/bizz84/code_with_andrea_flutter/blob/main/LICENSE.md>
+
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
-// import 'package:cannlytics_app/routing/routes.dart';
-import 'package:cannlytics_app/views/splash_screen.dart';
+// Package imports:
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
-// import 'package:cannlytics_app/commands/app/bootstrap_command.dart';
-// import 'package:cannlytics_app/models/app_model.dart';
-// import 'package:cannlytics_app/models/books_model.dart';
-// import 'package:cannlytics_app/routing/app_route_parser.dart';
-// import 'package:cannlytics_app/routing/app_router.dart';
-// import 'package:cannlytics_app/services/cloudinary/cloud_storage_service.dart';
-// import 'package:cannlytics_app/services/firebase/firebase_service.dart';
-// import 'package:provider/provider.dart';
+// Project imports:
+import 'package:cannlytics_data/constants/errors.dart';
+import 'package:cannlytics_data/constants/licenses.dart';
+import 'package:cannlytics_data/constants/theme.dart';
+import 'package:cannlytics_data/firebase_options.dart';
+import 'package:cannlytics_data/routing/app_router.dart';
+import 'package:cannlytics_data/ui/account/account_controller.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  // Status bar style on Android/iOS
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle());
+// ignore:depend_on_referenced_packages
 
-  if (kIsWeb) {
-    // Increase Skia cache size to support bigger images.
-    const int megabyte = 1000000;
-    SystemChannels.skia
-        .invokeMethod('Skia.setResourceCacheMaxBytes', 512 * megabyte);
-    // Hot-fix: cant' await on invokeMethod due to
-    // https://github.com/flutter/flutter/issues/77018
-    // so awaiting on Future.delayed instead.
-    await Future<void>.delayed(Duration.zero);
-  }
+/// The main application.
+class CannlyticsApp extends ConsumerWidget {
+  const CannlyticsApp({super.key});
 
-  // TODO: Handle dependecy injection with GetX
-  await Firebase.initializeApp();
-  // Get.put<AuthController>(AuthController());
-  // Get.put<ThemeController>(ThemeController());
-
-  // Create core models and services.
-  // FirebaseService firebase = FirebaseFactory.create();
-  // BooksModel booksModel = BooksModel();
-  // AppModel appModel = AppModel(booksModel, firebase);
-
-  // Run the app.
-  runApp(MainApp());
-  // runApp(MultiProvider(
-  //   providers: [
-  //     Provider.value(value: firebase),
-  //     // Provider(create: (_) => CloudStorageService()),
-  //     ChangeNotifierProvider.value(value: appModel),
-  //     ChangeNotifierProvider.value(value: booksModel),
-  //   ],
-  //   child: _AppBootstrapper(),
-  // ));
-}
-
-class MainApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    // Determine the initial theme.
-    // ThemeController.to.getThemeMode();
-    // AppTheme _theme = AppTheme.fromType(ThemeType.CannlyticsColors);
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Routing provider.
+    final goRouter = ref.watch(goRouterProvider);
 
-    /// Main application
-    return GetMaterialApp(
-      title: 'Cannlytics',
+    // Theme provider.
+    final themeMode = ref.watch(themeModeProvider);
+
+    // Material app.
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      // getPages: Routes.routes,
-      home: SplashScreen(),
-      // home: GetBuilder<AuthController>(
-      //   init: AuthController(),
-      //   builder: (controller) => controller.loading
-      //       ? SplashScreen()
-      //       : (controller.signedIn)
-      //           ? HomeUI()
-      //           : WelcomeUI(),
-      // ),
-      // initialRoute: '/',
-      // navigatorObservers: [AnalyticsService().getAnalyticsObserver()],
-      // theme: _theme.themeData,
-      // darkTheme: AppThemes.darkTheme,
-      // themeMode: Get.isDarkMode ? ThemeMode.light : ThemeMode.dark,
+      routerConfig: goRouter,
+      theme: AppTheme.toThemeData(),
+      darkTheme: AppTheme.toThemeData(isDark: true),
+      themeMode: themeMode,
     );
   }
 }
 
-// // Bootstrap the app, initializing all Controllers and Services.
-// class _AppBootstrapper extends StatefulWidget {
-//   @override
-//   _AppBootstrapperState createState() => _AppBootstrapperState();
-// }
+/// [main] initializes the [CannlyticsApp].
+Future<void> main() async {
+  // Initialize Flutter.
+  WidgetsFlutterBinding.ensureInitialized();
 
-// class _AppBootstrapperState extends State<_AppBootstrapper> {
-//   AppRouteParser routeParser = AppRouteParser();
-//   AppRouterDelegate router;
-//   @override
-//   void initState() {
-//     // Create the appRouter, and inject it with the models/services it needs.
-//     router = AppRouterDelegate(
-//       context.read<AppModel>(),
-//       context.read<BooksModel>(),
-//       context.read<FirebaseService>(),
-//     );
-//     // Run Bootstrap with scheduleMicrotask to avoid triggering any builds from init()
-//     scheduleMicrotask(() {
-//       // Bootstrap. This will initialize services, load saved data,
-//       // determine initial navigation state and anything else
-//       // that needs to get done at startup
-//       BootstrapCommand().run(context);
-//     });
-//     super.initState();
-//   }
+  // Initialize Firebase.
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp.router(
-//       // Convert appState to (and from) a string "location"
-//       routeInformationParser: routeParser,
-//       // Builds a stack that represents your appState.
-//       routerDelegate: router,
-//       // Disable debug banner
-//       debugShowCheckedModeBanner: false,
-//     );
-//   }
-// }
+  // Remove hashtags from URLs on the web.
+  usePathUrlStrategy();
+
+  // Register error handlers.
+  registerErrorHandlers();
+
+  // Register licenses.
+  LicenseRegistry.addLicense(renderAppLicenses);
+
+  // Create a container to serve as the app entry point.
+  final container = ProviderContainer();
+
+  // Run the app after authentication is determined.
+  // This will prevent unnecessary redirects when the app starts.
+  await container.read(userProvider.future);
+  runApp(UncontrolledProviderScope(
+    container: container,
+    child: const CannlyticsApp(),
+  ));
+}
