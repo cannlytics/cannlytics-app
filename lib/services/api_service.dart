@@ -4,7 +4,7 @@
 // Authors:
 //   Keegan Skeate <https://github.com/keeganskeate>
 // Created: 2/20/2023
-// Updated: 8/24/2023
+// Updated: 8/23/2024
 // License: MIT License <https://github.com/cannlytics/cannlytics/blob/main/LICENSE>
 
 // Dart imports:
@@ -19,17 +19,14 @@ import 'package:http/http.dart' as http;
 class APIService {
   const APIService._();
 
-  // Define the base URL.
-  // FIXME: Smoothly switch between dev and production.
-  // static String _baseUrl = 'http://127.0.0.1:8000/api';
-  static String _baseUrl = 'https://cannlytics.com/api';
+  // Determine if the app is in production.
+  static final bool isProduction = bool.fromEnvironment('dart.vm.product');
 
-  /// Initialize the API service.
-  static void initialize() {
-    bool isProduction = bool.fromEnvironment('dart.vm.product');
-    if (isProduction) {
-      _baseUrl = 'https://cannlytics.com/api';
-    }
+  // Define the API base URL depending on the environment.
+  static String get baseUrl {
+    return isProduction
+        ? 'https://cannlytics.com/api'
+        : 'http://127.0.0.1:8000/api';
   }
 
   /// API base URL.
