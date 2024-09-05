@@ -2,13 +2,21 @@
 
 The Cannlytics app is built with Flutter and is a gateway to cannabis data. The `assets` directory is where the app's images and other static files live. The `lib` directory is where the app's source code lives. The `web` directory contains files to support the web version of the app.
 
-### App Development
+## Installation
+
+## Development
+
+### Android
+
+### Web
 
 Once you have everything installed, you can run the app with:
 
 ```shell
 flutter run -d chrome
 ```
+
+## Pre-deployment
 
 You can sort imports with:
 
@@ -35,7 +43,7 @@ dart fix --dry-run
 dart fix --apply
 ```
 
-### App Publishing
+### Publishing
 
 First, build the app:
 
