@@ -118,3 +118,6 @@ android/app/google-services.json
 web/config.json
 
 # Flutter packages
+.flutter-plugins
+.flutter-plugins-dependencies
+pubspec.lock

@@ -1,10 +1,10 @@
 // Cannlytics App
-// Copyright (c) 2023 Cannlytics
+// Copyright (c) 2023-2024 Cannlytics
 
 // Authors:
 //   Keegan Skeate <https://github.com/keeganskeate>
 // Created: 2/20/2023
-// Updated: 8/23/2024
+// Updated: 9/5/2024
 // License: MIT License <https://github.com/cannlytics/cannlytics/blob/main/LICENSE>
 
 // Dart imports:
@@ -30,7 +30,7 @@ class APIService {
   }
 
   /// API base URL.
-  static String get baseUrl => _baseUrl;
+  // static String get baseUrl => _baseUrl;
 
   /// Get a user's token. Set [refresh] to renew credentials.
   static Future<String> getUserToken({bool refresh = false}) async {

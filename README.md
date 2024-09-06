@@ -43,7 +43,7 @@ dart fix --dry-run
 dart fix --apply
 ```
 
-### Publishing
+## Publishing
 
 First, build the app:
 
